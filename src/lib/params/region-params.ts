@@ -1,34 +1,11 @@
-import { sdk } from "../sdk";
+import { mockRegion } from "../data/mock-regions";
 
 interface RegionParams {
-  params: {
-    countryCode: string;
-  };
+  params: { countryCode: string };
 }
 
-export const getRegionParams = async () => {
-  try {
-    const { regions } = await sdk.store.region.list();
-
-    let paths: RegionParams[] = [];
-
-    regions.forEach((region) => {
-      region.countries?.forEach((country) => {
-        if (!country.iso_2) {
-          return;
-        }
-
-        paths.push({
-          params: {
-            countryCode: country.iso_2.toLowerCase(),
-          },
-        });
-      });
-    });
-
-    return paths;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
+export const getRegionParams = async (): Promise<RegionParams[]> => {
+  return mockRegion.countries.map((c) => ({
+    params: { countryCode: c.iso_2 },
+  }));
 };

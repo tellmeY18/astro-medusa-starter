@@ -1,84 +1,39 @@
-import type { ProductVariant } from "../../types/global";
-import { getPercentageDiff } from "./get-percentage-diff";
+import type { MockVariant } from "@lib/data/mock-products";
 import { convertToLocale } from "./money";
-
-export const getPricesForVariant = (variant: ProductVariant) => {
-  if (
-    !variant?.calculated_price ||
-    !variant.calculated_price.calculated_amount ||
-    !variant.calculated_price.original_amount ||
-    !variant.calculated_price.currency_code ||
-    !variant.calculated_price.calculated_price
-  ) {
-    return null;
-  }
-
-  return {
-    calculated_price_number: variant.calculated_price.calculated_amount,
-    calculated_price: convertToLocale({
-      amount: variant.calculated_price.calculated_amount,
-      currencyCode: variant.calculated_price.currency_code,
-    }),
-    original_price_number: variant.calculated_price.original_amount,
-    original_price: convertToLocale({
-      amount: variant.calculated_price.original_amount,
-      currencyCode: variant.calculated_price.currency_code,
-    }),
-    currency_code: variant.calculated_price.currency_code,
-    price_type: variant.calculated_price.calculated_price.price_list_type,
-    percentage_diff: getPercentageDiff(
-      variant.calculated_price.original_amount,
-      variant.calculated_price.calculated_amount,
-    ),
-  };
-};
 
 export const getProductPrice = ({
   productVariants,
-  variantId,
 }: {
-  productVariants: ProductVariant[] | null;
-  variantId?: string;
+  productVariants: { price?: number }[] | null;
 }) => {
-  const cheapestPrice = () => {
-    if (!productVariants?.length) {
-      return null;
-    }
+  if (!productVariants?.length) {
+    return { cheapestPrice: null, variantPrice: null };
+  }
 
-    const cheapestVariant = productVariants
-      .filter(
-        (variant) =>
-          !!variant.calculated_price &&
-          !!variant.calculated_price.calculated_amount,
-      )
-      .sort((a, b) => {
-        return (
-          a.calculated_price!.calculated_amount! -
-          b.calculated_price!.calculated_amount!
-        );
-      })[0];
+  const withPrice = productVariants.filter(
+    (v) => v.price != null,
+  );
 
-    return getPricesForVariant(cheapestVariant);
-  };
+  if (!withPrice.length) {
+    return { cheapestPrice: null, variantPrice: null };
+  }
 
-  const variantPrice = () => {
-    if (!variantId) {
-      return null;
-    }
-
-    const variant = productVariants?.find(
-      (variant) => variant.id === variantId || variant.sku === variantId,
-    );
-
-    if (!variant) {
-      return null;
-    }
-
-    return getPricesForVariant(variant);
-  };
+  const cheapest = withPrice.reduce((min, v) =>
+    (v.price ?? Infinity) < (min.price ?? Infinity) ? v : min,
+  );
 
   return {
-    cheapestPrice: cheapestPrice(),
-    variantPrice: variantPrice(),
+    cheapestPrice: {
+      calculated_price: convertToLocale({
+        amount: cheapest.price!,
+        currencyCode: "usd",
+      }),
+      original_price: convertToLocale({
+        amount: cheapest.price!,
+        currencyCode: "usd",
+      }),
+      price_type: "sale" as const,
+    },
+    variantPrice: null,
   };
 };

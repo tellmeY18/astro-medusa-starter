@@ -1,78 +1,36 @@
-import { sdk } from "@lib/sdk";
 import { addToCart } from "@lib/stores/cart";
 import { isProductInStock } from "@lib/utils/is-product-in-stock";
 import clsx from "clsx";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 type Variant = {
   id: string;
-  options:
-    | {
-        id: string;
-        option_id?: string | null;
-      }[]
-    | null;
-  manage_inventory: boolean | null;
-  allow_backorder: boolean | null;
-  inventory_quantity?: number | null;
+  title: string;
+  sku: string;
+  price: number;
+  inventory_quantity: number;
+  options: { id: string; option_id?: string | null; value: string }[];
 };
 
 interface Props {
   options: {
     id: string;
     title: string;
-    values?: {
-      id: string;
-      value: string;
-    }[];
+    values?: { id: string; value: string }[];
   }[];
   variants: Variant[];
   productId: string;
-  regionId: string;
 }
 
 export const ProductActions = ({
   options,
-  variants: initialVariants,
+  variants,
   productId,
-  regionId,
 }: Props) => {
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, string>
   >({});
   const [isAdding, setIsAdding] = useState(false);
-  const [variants, setVariants] = useState<Variant[]>(initialVariants);
-  const [isLoadingVariants, setIsLoadingVariants] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function fetchFreshVariants() {
-      try {
-        const { product } = await sdk.store.product.retrieve(productId, {
-          region_id: regionId,
-          fields:
-            "+variants.inventory_quantity,*variants.options",
-        });
-
-        if (!cancelled && product?.variants) {
-          setVariants(product.variants as Variant[]);
-        }
-      } catch (error) {
-        console.error("Failed to fetch fresh variant data:", error);
-      } finally {
-        if (!cancelled) {
-          setIsLoadingVariants(false);
-        }
-      }
-    }
-
-    fetchFreshVariants();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [productId, regionId]);
 
   const selectedVariant = useMemo(() => {
     if (
@@ -82,11 +40,9 @@ export const ProductActions = ({
     ) {
       return;
     }
-
     return variants.find((variant) =>
       variant.options?.every(
-        (optionValue) =>
-          optionValue.id === selectedOptions[optionValue.option_id!],
+        (opt) => opt.id === selectedOptions[opt.option_id!],
       ),
     );
   }, [selectedOptions, variants, options]);
@@ -97,25 +53,52 @@ export const ProductActions = ({
 
   const handleAddToCart = async () => {
     if (!selectedVariant || isAdding) return;
-
     setIsAdding(true);
     try {
-      await addToCart(selectedVariant.id, 1);
-    } catch (error) {
-      console.error("Failed to add item to cart:", error);
+      addToCart(selectedVariant.id, 1, {
+        title: options.map((o) => {
+          const val = o.values?.find(
+            (v) => v.id === selectedOptions[o.id],
+          );
+          return val?.value ?? "";
+        }).filter(Boolean).join(" / ") || "Item",
+        variant_title: selectedVariant.title,
+        thumbnail: undefined,
+        price: selectedVariant.price,
+      });
     } finally {
       setIsAdding(false);
     }
   };
 
-  const isAddToCardButtonDisabled =
+  const isDisabled =
     !selectedVariant ||
-    isLoadingVariants ||
     !isProductInStock(selectedVariant) ||
     isAdding;
 
   if (options.length === 0) {
-    return null;
+    return (
+      <button
+        className={clsx(
+          "bg-black text-white py-4 px-8 rounded-md cursor-pointer hover:shadow-md ease-in-out duration-200",
+          { "opacity-50 cursor-not-allowed": isDisabled },
+        )}
+        disabled={isDisabled}
+        onClick={() => {
+          if (variants[0]) {
+            setIsAdding(true);
+            addToCart(variants[0].id, 1, {
+              title: variants[0].title,
+              variant_title: variants[0].title,
+              price: variants[0].price,
+            });
+            setIsAdding(false);
+          }
+        }}
+      >
+        {isAdding ? "Adding..." : "Add to Cart"}
+      </button>
+    );
   }
 
   return (
@@ -129,9 +112,7 @@ export const ProductActions = ({
                 key={value.id}
                 className={clsx(
                   "bg-gray-100 py-2 px-4 rounded-md cursor-pointer hover:shadow-md ease-in-out duration-200 w-20 h-10 box-border",
-                  {
-                    border: selectedOptions[option.id] === value.id,
-                  },
+                  { border: selectedOptions[option.id] === value.id },
                 )}
                 onClick={() => handleOptionSelect(option.id, value.id)}
               >
@@ -145,11 +126,9 @@ export const ProductActions = ({
       <button
         className={clsx(
           "bg-black text-white py-4 px-8 rounded-md cursor-pointer hover:shadow-md ease-in-out duration-200",
-          {
-            "opacity-50 cursor-not-allowed": isAddToCardButtonDisabled,
-          },
+          { "opacity-50 cursor-not-allowed": isDisabled },
         )}
-        disabled={isAddToCardButtonDisabled}
+        disabled={isDisabled}
         onClick={handleAddToCart}
       >
         {isAdding ? "Adding..." : "Add to Cart"}

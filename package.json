@@ -1,7 +1,7 @@
 {
-  "name": "astro-medusa-starter",
+  "name": "my-store",
   "type": "module",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -12,10 +12,7 @@
     "@astrojs/cloudflare": "13.1.4",
     "@astrojs/react": "5.0.2",
     "@hookform/resolvers": "^5.2.2",
-    "@medusajs/js-sdk": "^2.13.1",
     "@nanostores/react": "^1.0.0",
-    "@stripe/react-stripe-js": "^5.6.1",
-    "@stripe/stripe-js": "^8.9.0",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "6.1.1",
     "clsx": "^2.1.1",
@@ -26,7 +23,6 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@medusajs/types": "^2.13.1",
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.56.0",
@@ -38,5 +34,5 @@
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3"
   },
-  "packageManager": "yarn@4.9.1"
+  "packageManager": "yarn@1.22.22"
 }
