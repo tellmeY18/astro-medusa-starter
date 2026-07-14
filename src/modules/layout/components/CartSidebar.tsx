@@ -57,7 +57,7 @@ export const CartSidebar = ({ countryCode }: CartSidebarProps) => {
 
   const itemCount = cart?.items?.length ?? 0;
   const isEmpty = itemCount === 0;
-  const currencyCode = cart?.currency_code || "usd";
+  const currencyCode = cart?.currency_code || "inr";
 
   const itemSubtotal = cart?.items?.reduce(
     (sum, item) => sum + item.unit_price * item.quantity,

@@ -41,7 +41,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return next();
   }
 
-  const defaultCode = supportedCountryCodes[0] || "us";
+  const defaultCode = supportedCountryCodes[0] || "in";
   const redirectPath = pathname === "/" ? "" : pathname;
   const redirectUrl = `${context.url.origin}/${defaultCode}${redirectPath}${context.url.search}`;
   return context.redirect(redirectUrl, 307);

@@ -23,7 +23,7 @@ export const CartPage = ({ countryCode }: CartPageProps) => {
 
   const itemCount = cart?.items?.length ?? 0;
   const isEmpty = itemCount === 0;
-  const currencyCode = cart?.currency_code || "usd";
+  const currencyCode = cart?.currency_code || "inr";
 
   return (
     <div className="max-w-7xl mx-auto px-8 py-8">

@@ -21,7 +21,7 @@ export const ConfirmedFallbackPage = ({
     } catch {}
   }, []);
 
-  const currency = cart?.currency_code ?? "usd";
+  const currency = cart?.currency_code ?? "inr";
   const subtotal = cart?.items?.reduce(
     (s, i) => s + i.unit_price * i.quantity,
     0,

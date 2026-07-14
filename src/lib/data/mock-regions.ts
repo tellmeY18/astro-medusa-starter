@@ -5,13 +5,9 @@ export type MockRegion = {
 };
 
 export const mockRegion: MockRegion = {
-  id: "reg_us",
-  name: "United States",
-  countries: [
-    { iso_2: "us", display_name: "United States" },
-    { iso_2: "ca", display_name: "Canada" },
-    { iso_2: "gb", display_name: "United Kingdom" },
-  ],
+  id: "reg_in",
+  name: "India",
+  countries: [{ iso_2: "in", display_name: "India" }],
 };
 
 export const supportedCountryCodes = mockRegion.countries.map((c) => c.iso_2);

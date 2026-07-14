@@ -26,11 +26,11 @@ export const getProductPrice = ({
     cheapestPrice: {
       calculated_price: convertToLocale({
         amount: cheapest.price!,
-        currencyCode: "usd",
+        currencyCode: "inr",
       }),
       original_price: convertToLocale({
         amount: cheapest.price!,
-        currencyCode: "usd",
+        currencyCode: "inr",
       }),
       price_type: "sale" as const,
     },

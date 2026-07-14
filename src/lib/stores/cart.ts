@@ -48,7 +48,7 @@ export function initCart(): void {
   const cart: LocalCart = {
     id: generateId(),
     items: [],
-    currency_code: "usd",
+    currency_code: "inr",
   };
   saveCart(cart);
   $cart.set(cart);

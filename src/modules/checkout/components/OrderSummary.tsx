@@ -6,7 +6,7 @@ interface OrderSummaryProps {
 }
 
 export const OrderSummary = ({ cart }: OrderSummaryProps) => {
-  const currencyCode = cart.currency_code || "usd";
+  const currencyCode = cart.currency_code || "inr";
   const subtotal = cart.items.reduce(
     (sum, item) => sum + item.unit_price * item.quantity,
     0,
