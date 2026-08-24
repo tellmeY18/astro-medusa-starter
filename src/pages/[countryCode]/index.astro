@@ -1,53 +1,399 @@
 ---
-import { Image } from "astro:assets";
-import Layout from "../../layouts/Layout.astro";
-import { getRegionParams } from "../../lib/params/region-params";
-import heroImage from "../../assets/hero.png";
-
-export const getStaticPaths = getRegionParams;
-
-const { countryCode } = Astro.params;
+export function getStaticPaths() {
+  return [
+    { params: { countryCode: "in" } },
+    { params: { countryCode: "us" } },
+  ];
+}
 ---
 
-<Layout
-  description="Simple e-commerce storefront built with Astro."
-  image={heroImage.src}
->
-  <section
-    class="flex items-center gap-12 overflow-hidden px-8 py-10 md:px-12 lg:min-h-[calc(100vh-96px-2rem)] lg:px-16"
-  >
-    <div class="flex flex-col gap-6 w-full md:flex-1 md:max-w-2xl">
-      <h1 class="text-5xl font-bold leading-tight tracking-tight">
-        Simple <span class="whitespace-nowrap">e-commerce</span> storefront
-      </h1>
-      <p class="text-gray-500 text-base leading-relaxed">
-        A lightweight storefront built with Astro for maximum performance.
-        Ready to grow when you add a backend.
-      </p>
-      <div class="flex items-center gap-4 mt-2">
-        <a
-          href={`/${countryCode}/store`}
-          class="px-6 py-3 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors"
-        >
-          Browse products
-        </a>
-      </div>
-    </div>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pinoki - Crafted for your Happiness</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-    <div
-      class="relative hidden h-full min-h-[36rem] md:flex md:flex-1 md:items-center md:justify-end"
-    >
-      <Image
-        src={heroImage}
-        width={800}
-        height={900}
-        alt="Featured product"
-        widths={[400, 600, 800]}
-        sizes="(max-width: 1024px) 50vw, 40vw"
-        format="webp"
-        quality={80}
-        class="pointer-events-none absolute right-[-58%] top-1/2 z-10 h-auto max-h-none w-[66rem] max-w-none -translate-y-1/2 object-contain lg:right-[-64%] lg:w-[82rem] xl:right-[-62%] xl:w-[98rem]"
-      />
-    </div>
-  </section>
-</Layout>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background-color: #FEF3EA;
+        color: #5D392D;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+        overflow-x: hidden;
+      }
+
+      /* Header Navbar */
+      header {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        height: 110px;
+        padding: 0 48px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1.5px solid #5D392D;
+        z-index: 50;
+        background-color: #FEF3EA;
+      }
+
+      .logo-nav img {
+        height: 95px;
+        width: auto;
+        display: block;
+        object-fit: contain;
+      }
+
+      nav {
+        display: flex;
+        gap: 48px;
+        align-items: center;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: #5D392D;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+        font-size: 26px;
+        line-height: 100%;
+        transition: opacity 0.2s;
+      }
+
+      nav a:hover {
+        opacity: 0.75;
+      }
+
+      .order-btn {
+        background-color: #5D392D;
+        color: #FEF3EA;
+        padding: 10px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.2s;
+      }
+
+      .order-btn:hover {
+        opacity: 0.9;
+      }
+
+      /* HERO SECTION */
+      .hero-section {
+        position: relative;
+        height: calc(100vh - 110px);
+        min-height: 550px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid #5D392D;
+      }
+
+      .hero-center {
+        text-align: center;
+        z-index: 10;
+      }
+
+      .hero-logo {
+        width: 360px;
+        max-width: 70vw;
+        height: auto;
+      }
+
+      /* Botanicals locked completely flush to the bottom border line with zero space */
+      .botanical-left {
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        height: 100%;
+        width: auto;
+        max-width: 38vw;
+        pointer-events: none;
+        object-fit: fill;
+        object-position: left bottom;
+        z-index: 5;
+      }
+
+      .botanical-right {
+        position: absolute;
+        right: 0;
+        bottom: -1px;
+        height: 100%;
+        width: auto;
+        max-width: 38vw;
+        pointer-events: none;
+        object-fit: fill;
+        object-position: right bottom;
+        z-index: 5;
+      }
+
+      /* ABOUT US SECTION - GAP DOUBLED FROM HERO BORDER */
+      #about {
+        position: relative;
+        min-height: 950px;
+        background-color: #FEF3EA;
+        width: 100%;
+        overflow: hidden;
+        margin-top: 120px; /* Doubled gap between bottom hero border and About Us heading */
+      }
+
+      /* Flowers Graphic */
+      .bg-flowers {
+        position: absolute;
+        top: 20px;
+        left: 39px;
+        width: 561px;
+        height: 795px;
+        opacity: 0.5;
+        pointer-events: none;
+        z-index: 1;
+        object-fit: contain;
+      }
+
+      /* Right Branch Graphic */
+      .right-branch-img {
+        position: absolute;
+        top: 30px;
+        left: 912px;
+        width: 578px;
+        height: 845px;
+        opacity: 0.5;
+        pointer-events: none;
+        z-index: 1;
+        object-fit: contain;
+      }
+
+      /* Woman Graphic */
+      .woman-img {
+        position: absolute;
+        top: 380px;
+        left: -61px;
+        width: 410px;
+        height: 546px;
+        opacity: 0.5;
+        pointer-events: none;
+        z-index: 2;
+        object-fit: contain;
+      }
+
+      /* About Us Title */
+      .about-title {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 54px;
+        color: #5D392D;
+        text-align: center;
+        margin-bottom: 30px;
+        z-index: 10;
+        position: relative;
+      }
+
+      /* Divider line between left & right content */
+      .center-divider {
+        position: absolute;
+        top: 220px;
+        left: 690px;
+        width: 1px;
+        height: 380px;
+        background-color: #5D392D;
+        z-index: 10;
+      }
+
+      /* Left Text Block */
+      .left-text-block {
+        position: absolute;
+        top: 220px;
+        left: 126px;
+        width: 478px;
+        height: 330px;
+        opacity: 1;
+        text-align: right;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 100%;
+        letter-spacing: 0%;
+        color: #5D392D;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .left-text-block h3 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 36px;
+        font-weight: 700;
+        color: #5D392D;
+        line-height: 100%;
+      }
+
+      .left-text-block p {
+        font-family: 'Poppins', sans-serif;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 130%;
+        color: #5D392D;
+      }
+
+      /* Right Text Container */
+      .right-text-container {
+        position: absolute;
+        top: 220px;
+        left: 776px;
+        z-index: 10;
+        display: flex;
+        gap: 60px;
+      }
+
+      /* Right Column One */
+      .right-col-one {
+        width: 288px;
+        height: 298px;
+        opacity: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      /* Right Column Two */
+      .right-col-two {
+        width: 288px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      .right-title {
+        font-family: 'Poppins', sans-serif;
+        font-size: 36px;
+        font-weight: 700;
+        color: #5D392D;
+        line-height: 100%;
+        margin-bottom: 8px;
+      }
+
+      .why-item h4 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 22px;
+        color: #5D392D;
+        margin-bottom: 6px;
+        line-height: 100%;
+      }
+
+      .why-item p {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 125%;
+        color: #5D392D;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <!-- Navbar -->
+    <header>
+      <a href="/" class="logo-nav">
+        <img src="/pinoki.png" alt="Pinoki Logo" />
+      </a>
+
+      <nav>
+        <a href="/">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#products">Products</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <a href="#products" class="order-btn">Order Now</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <img src="/left-botanicals.png" alt="Left Botanicals" class="botanical-left" />
+
+      <div class="hero-center">
+        <img src="/pinoki.png" alt="Pinoki - Crafted for your Happiness" class="hero-logo" />
+      </div>
+
+      <img src="/right-botanicals.png" alt="Right Botanicals" class="botanical-right" />
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about">
+      <img src="/flowers.png" alt="Flowers Background" class="bg-flowers" />
+      <img src="/rightbranch.png" alt="Hanging Branch" class="right-branch-img" />
+      <img src="/woman.png" alt="Kerala Artisan Woman" class="woman-img" />
+
+      <h2 class="about-title">About Us</h2>
+
+      <div class="center-divider"></div>
+
+      <!-- Left Text Layout -->
+      <div class="left-text-block">
+        <h3>Meant for everyday.</h3>
+        <p>At Pinoki, we create kitchen tools that are as beautiful as they are functional.</p>
+        <p>Designed to age gracefully, every piece highlights the natural beauty of wood and becomes part of your everyday cooking rituals.</p>
+      </div>
+
+      <!-- Right Text Layout -->
+      <div class="right-text-container">
+        <!-- Column 1 -->
+        <div class="right-col-one">
+          <h3 class="right-title">Why Pinoki?</h3>
+          
+          <div class="why-item">
+            <h4>Naturally Crafted</h4>
+            <p>Carefully selected hardwoods, each with its own character.</p>
+          </div>
+
+          <div class="why-item">
+            <h4>Built to Last</h4>
+            <p>Made for everyday use, designed to last for years.</p>
+          </div>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="right-col-two">
+          <div style="height: 44px;"></div>
+          
+          <div class="why-item">
+            <h4>Made in Kerala</h4>
+            <p>Crafted with Kerala’s rich woodworking heritage.</p>
+          </div>
+
+          <div class="why-item">
+            <h4>Made for Everyday</h4>
+            <p>Timeless, functional pieces for every kitchen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </body>
+</html>
