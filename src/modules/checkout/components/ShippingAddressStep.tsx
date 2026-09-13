@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateCartAddress } from "@lib/stores/cart";
-import type { StoreCart } from "@medusajs/types";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -22,7 +21,6 @@ const addressSchema = z.object({
   province: z.string(),
 });
 
-// Billing fields are bare strings — validated conditionally via superRefine
 const billingSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
@@ -50,7 +48,6 @@ const formSchema = z
   })
   .superRefine(({ billingSameAsShipping, billing }, ctx) => {
     if (billingSameAsShipping) return;
-
     const required: [keyof typeof billing, string][] = [
       ["firstName", "First name is required"],
       ["lastName", "Last name is required"],
@@ -59,7 +56,6 @@ const formSchema = z
       ["city", "City is required"],
       ["country", "Country is required"],
     ];
-
     for (const [field, message] of required) {
       if (!billing[field].trim()) {
         ctx.addIssue({ code: "custom", path: ["billing", field], message });
@@ -78,37 +74,7 @@ const EMPTY_ADDRESS: AddressValues = {
   province: "",
 };
 
-function mapAddress(
-  addr?: StoreCart["shipping_address"] | null,
-): AddressValues {
-  return {
-    firstName: addr?.first_name ?? "",
-    lastName: addr?.last_name ?? "",
-    address: addr?.address_1 ?? "",
-    company: addr?.company ?? "",
-    postalCode: addr?.postal_code ?? "",
-    city: addr?.city ?? "",
-    country: addr?.country_code ?? "",
-    province: addr?.province ?? "",
-  };
-}
-
-function areSameAddress(
-  a?: StoreCart["shipping_address"] | null,
-  b?: StoreCart["billing_address"] | null,
-): boolean {
-  if (!a || !b) return false;
-  return (
-    a.first_name === b.first_name &&
-    a.last_name === b.last_name &&
-    a.address_1 === b.address_1 &&
-    a.postal_code === b.postal_code &&
-    a.city === b.city
-  );
-}
-
 interface ShippingAddressStepProps {
-  cart: StoreCart | null;
   countries: RegionCountry[];
   countryCode: string;
   mode: "edit" | "read";
@@ -135,93 +101,7 @@ const CheckCircle = () => (
   </span>
 );
 
-const ReadOnlyView = ({
-  cart,
-  onEdit,
-}: {
-  cart: StoreCart;
-  onEdit?: () => void;
-}) => {
-  const shipping = cart.shipping_address;
-  const billing = cart.billing_address;
-  const isBillingSame = areSameAddress(shipping, billing);
-
-  const shippingLines = [
-    shipping?.first_name && shipping?.last_name
-      ? `${shipping.first_name} ${shipping.last_name}`
-      : null,
-    shipping?.address_1 ?? null,
-    shipping?.postal_code && shipping?.city
-      ? `${shipping.postal_code}, ${shipping.city}`
-      : null,
-    shipping?.country_code?.toUpperCase() ?? null,
-  ].filter(Boolean) as string[];
-
-  const billingLines = isBillingSame
-    ? null
-    : [
-        billing?.first_name && billing?.last_name
-          ? `${billing.first_name} ${billing.last_name}`
-          : null,
-        billing?.address_1 ?? null,
-        billing?.postal_code && billing?.city
-          ? `${billing.postal_code}, ${billing.city}`
-          : null,
-        billing?.country_code?.toUpperCase() ?? null,
-      ].filter(Boolean) as string[];
-
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold flex items-center gap-2">
-          Shipping Address
-          <CheckCircle />
-        </h2>
-        <button
-          type="button"
-          onClick={onEdit}
-          className="text-blue-600 hover:underline text-sm"
-        >
-          Edit
-        </button>
-      </div>
-
-      <div className="grid grid-cols-3 gap-8 text-sm">
-        <div>
-          <p className="font-medium mb-2">Shipping Address</p>
-          {shippingLines.map((line, i) => (
-            <p key={i} className="text-gray-700">
-              {line}
-            </p>
-          ))}
-        </div>
-
-        <div>
-          <p className="font-medium mb-2">Contact</p>
-          {cart.email && <p className="text-gray-700">{cart.email}</p>}
-        </div>
-
-        <div>
-          <p className="font-medium mb-2">Billing Address</p>
-          {isBillingSame ? (
-            <p className="text-gray-700">
-              Billing and delivery address are the same.
-            </p>
-          ) : (
-            billingLines?.map((line, i) => (
-              <p key={i} className="text-gray-700">
-                {line}
-              </p>
-            ))
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
 export const ShippingAddressStep = ({
-  cart,
   countries,
   countryCode,
   mode,
@@ -235,7 +115,6 @@ export const ShippingAddressStep = ({
     register,
     handleSubmit,
     watch,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<CheckoutFormValues>({
     resolver: zodResolver(formSchema),
@@ -248,42 +127,24 @@ export const ShippingAddressStep = ({
     },
   });
 
-  // Populate form from saved cart address on first load / after refresh
   useEffect(() => {
-    if (!cart || cartInitialized.current) return;
+    if (cartInitialized.current) return;
     cartInitialized.current = true;
-
-    const shipping = cart.shipping_address;
-    if (!shipping?.first_name) return; // No saved address yet, keep empty defaults
-
-    const billing = cart.billing_address;
-    const billingSame =
-      !billing?.first_name || areSameAddress(shipping, billing);
-
-    reset({
-      email: cart.email ?? "",
-      phone: shipping.phone ?? "",
-      billingSameAsShipping: billingSame,
-      shipping: mapAddress(shipping),
-      billing: billingSame ? mapAddress(shipping) : mapAddress(billing),
-    });
-  }, [cart, reset]);
+    // Could pre-fill from cart state if available
+  }, []);
 
   const billingSameAsShipping = watch("billingSameAsShipping");
 
   const onSubmit = async (data: CheckoutFormValues) => {
     setSubmitError("");
     try {
-      const shippingAddress = {
+      const shippingAddress: Record<string, string> = {
         first_name: data.shipping.firstName,
         last_name: data.shipping.lastName,
         address_1: data.shipping.address,
-        company: data.shipping.company || undefined,
         postal_code: data.shipping.postalCode,
         city: data.shipping.city,
         country_code: data.shipping.country,
-        province: data.shipping.province || undefined,
-        phone: data.phone || undefined,
       };
 
       await updateCartAddress({
@@ -295,23 +156,36 @@ export const ShippingAddressStep = ({
               first_name: data.billing.firstName,
               last_name: data.billing.lastName,
               address_1: data.billing.address,
-              company: data.billing.company || undefined,
               postal_code: data.billing.postalCode,
               city: data.billing.city,
               country_code: data.billing.country,
-              province: data.billing.province || undefined,
             },
       });
 
       onContinue?.();
-    } catch (error) {
-      console.error("Failed to update shipping address:", error);
+    } catch {
       setSubmitError("Failed to save address. Please try again.");
     }
   };
 
-  if (mode === "read" && cart) {
-    return <ReadOnlyView cart={cart} onEdit={onEdit} />;
+  if (mode === "read") {
+    return (
+      <div>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold flex items-center gap-2">
+            Shipping Address <CheckCircle />
+          </h2>
+          <button
+            type="button"
+            onClick={onEdit}
+            className="text-blue-600 hover:underline text-sm"
+          >
+            Edit
+          </button>
+        </div>
+        <p className="text-sm text-gray-600">Address saved.</p>
+      </div>
+    );
   }
 
   return (
@@ -326,7 +200,6 @@ export const ShippingAddressStep = ({
           countries={countries}
         />
 
-        {/* Billing same as shipping */}
         <label className="flex items-center gap-2 cursor-pointer select-none">
           <input
             type="checkbox"
@@ -336,7 +209,6 @@ export const ShippingAddressStep = ({
           <span className="text-sm">Billing address same as shipping address</span>
         </label>
 
-        {/* Email / Phone */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <input
@@ -362,7 +234,6 @@ export const ShippingAddressStep = ({
           </div>
         </div>
 
-        {/* Billing address section */}
         {!billingSameAsShipping && (
           <div className="pt-4 border-t border-gray-200">
             <h3 className="text-lg font-semibold mb-4">Billing Address</h3>
@@ -384,7 +255,7 @@ export const ShippingAddressStep = ({
           disabled={isSubmitting}
           className="bg-black text-white py-3 px-8 rounded-md hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Saving..." : "Continue to delivery"}
+          {isSubmitting ? "Saving..." : "Continue"}
         </button>
       </div>
     </form>

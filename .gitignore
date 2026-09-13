@@ -28,3 +28,7 @@ pnpm-debug.log*
 
 # cloudflare
 .wrangler/
+
+# direnv
+.direnv/
+.envrc

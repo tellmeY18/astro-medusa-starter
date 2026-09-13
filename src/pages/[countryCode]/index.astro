@@ -1,60 +1,1357 @@
 ---
-import { Image } from "astro:assets";
-import Layout from "../../layouts/Layout.astro";
-import { getRegionParams } from "../../lib/params/region-params";
-import heroImage from "../../assets/hero.png";
-
-export const getStaticPaths = getRegionParams;
-
-const { countryCode } = Astro.params;
+export function getStaticPaths() {
+  return [
+    { params: { countryCode: "in" } },
+    { params: { countryCode: "us" } },
+  ];
+}
 ---
 
-<Layout
-  description="E-commerce starter template built with Astro and Medusa for maximum performance. Browse our collection of products."
-  image={heroImage.src}
->
-  <section
-    class="flex items-center gap-12 overflow-hidden px-8 py-10 md:px-12 lg:min-h-[calc(100vh-96px-2rem)] lg:px-16"
-  >
-    <div class="flex flex-col gap-6 w-full md:flex-1 md:max-w-2xl">
-      <h1 class="text-5xl font-bold leading-tight tracking-tight">
-        Astro + Medusa <span class="whitespace-nowrap">e-commerce</span> starter template
-      </h1>
-      <p class="text-gray-500 text-base leading-relaxed">
-        This template is a good way to start building your e-commerce store with
-        maximum performance in mind.
-      </p>
-      <div class="flex items-center gap-4 mt-2">
-        <a
-          href="https://github.com/Bystrol/astro-medusa-starter"
-          target="_blank"
-          class="px-6 py-3 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors"
-        >
-          Open Github
-        </a>
-        <a
-          href={`/${countryCode}/store`}
-          class="px-6 py-3 border border-black text-black text-sm font-medium rounded-full hover:bg-gray-100 transition-colors"
-        >
-          Browse products
-        </a>
+<div class="pinoki-page">
+<header>
+  <a href="/" class="logo-nav">
+    <img src="/pinoki.png" alt="Pinoki Logo" />
+  </a>
+
+  <nav>
+    <a href="/">Home</a>
+    <a href="#about">About Us</a>
+    <a href="#products">Products</a>
+    <a href="#info-footer">Contact</a>
+  </nav>
+
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <a href="#contact" class="order-btn">Order Now</a>
+</header>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <img src="/left-botanicals.png" alt="Left Botanicals" class="botanical-left" />
+
+  <div class="hero-center">
+    <img src="/pinoki.png" alt="Pinoki - Crafted for your Happiness" class="hero-logo" />
+  </div>
+
+  <img src="/right-botanicals.png" alt="Right Botanicals" class="botanical-right" />
+</section>
+
+<!-- About Us Section -->
+<section id="about">
+  <img src="/woman.png" alt="" class="about-bg-woman" />
+  <img src="/left.png" alt="" class="about-bg-flowers" />
+  <img src="/rightbranch.png" alt="" class="about-bg-stem" />
+
+  <h2 class="about-title">About Us</h2>
+
+  <div class="about-container">
+    <div class="left-text-block">
+      <div class="item-top">
+        <h3>Meant for everyday.</h3>
+        <p>At Pinoki, we create kitchen tools that are as beautiful as they are functional.</p>
+      </div>
+      <div class="item-bottom">
+        <p>Designed to age gracefully, every piece highlights the natural beauty of wood and becomes part of your everyday cooking rituals.</p>
       </div>
     </div>
 
-    <div
-      class="relative hidden h-full min-h-[36rem] md:flex md:flex-1 md:items-center md:justify-end"
-    >
-      <Image
-        src={heroImage}
-        width={800}
-        height={900}
-        alt="Featured product"
-        widths={[400, 600, 800]}
-        sizes="(max-width: 1024px) 50vw, 40vw"
-        format="webp"
-        quality={80}
-        class="pointer-events-none absolute right-[-58%] top-1/2 z-10 h-auto max-h-none w-[66rem] max-w-none -translate-y-1/2 object-contain lg:right-[-64%] lg:w-[82rem] xl:right-[-62%] xl:w-[98rem]"
-      />
+    <div class="center-divider"></div>
+
+    <div class="right-text-container">
+      <div class="right-sub-col">
+        <h3 class="right-title">Why Pinoki?</h3>
+
+        <div class="why-item">
+          <h4>Naturally Crafted</h4>
+          <p>Carefully selected hardwoods, each with its own character.</p>
+        </div>
+
+        <div class="why-item">
+          <h4>Built to Last</h4>
+          <p>Made for everyday use, designed to last for years.</p>
+        </div>
+      </div>
+
+      <div class="right-sub-col align-with-items">
+        <div class="why-item">
+          <h4>Made in Kerala</h4>
+          <p>Crafted with Kerala's rich woodworking heritage.</p>
+        </div>
+
+        <div class="why-item">
+          <h4>Made for Everyday</h4>
+          <p>Timeless, functional pieces for every kitchen.</p>
+        </div>
+      </div>
     </div>
-  </section>
-</Layout>
+  </div>
+</section>
+
+<!-- PRODUCTS SECTION -->
+<section id="products">
+  <h2 class="products-heading">Our Products</h2>
+
+  <!-- Kumbil Wood Row -->
+  <div class="product-row" id="kumbil-row">
+    <div class="stage-frame">
+      <img id="kumbil-main" src="/kumbilwood1.jpg" alt="Kumbil Wood" />
+    </div>
+
+    <div class="thumbs-col">
+      <button class="thumb-btn active" onclick="changeProductView('kumbil', '/kumbilwood1.jpg', 'Front View of Kumbil Wood', this, true)">
+        <img src="/kumbilwood1.jpg" alt="Thumb 1" />
+      </button>
+      <button class="thumb-btn" onclick="changeProductView('kumbil', '/kumbilwood2.jpg', 'Back view of Kumbil Wood', this, true)">
+        <img src="/kumbilwood2.jpg" alt="Thumb 2" />
+      </button>
+      <button class="thumb-btn" onclick="changeProductView('kumbil', '/kumbilwood3.jpg', 'Kumbil Wood with wooden drying stand', this, true)">
+        <img src="/kumbilwood3.jpg" alt="Thumb 3" />
+      </button>
+      <button class="thumb-btn" onclick="changeProductView('kumbil', '/kumbilwood4.jpg', 'Package Overview', this, true)">
+        <img src="/kumbilwood4.jpg" alt="Thumb 4" />
+      </button>
+    </div>
+
+    <div class="details-col">
+      <h3 class="details-title">Kumbil Wood</h3>
+      <p id="kumbil-desc" class="details-view-desc">Front View of Kumbil Wood</p>
+
+      <div class="details-pkg-card">
+        <p class="details-pkg-title">Included in Package:</p>
+        <ul>
+          <li>Cutting Board</li>
+          <li>Grain Shield</li>
+          <li>Wooden Drying Stand</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Acacia Wood Row -->
+  <div class="product-row" id="acacia-row">
+    <div class="stage-frame">
+      <img id="acacia-main" src="/acaciawood1.jpg" alt="Acacia Wood" />
+    </div>
+
+    <div class="thumbs-col">
+      <button class="thumb-btn active" onclick="changeProductView('acacia', '/acaciawood1.jpg', 'Front View of Acacia Wood', this, true)">
+        <img src="/acaciawood1.jpg" alt="Thumb 1" />
+      </button>
+      <button class="thumb-btn" onclick="changeProductView('acacia', '/acaciawood2.png', 'Back view of Acacia Wood', this, true)">
+        <img src="/acaciawood2.png" alt="Thumb 2" />
+      </button>
+      <button class="thumb-btn" onclick="changeProductView('acacia', '/acaciawood3.jpg', 'Acacia Wood with wooden drying stand', this, true)">
+        <img src="/acaciawood3.jpg" alt="Thumb 3" />
+      </button>
+      <button class="thumb-btn" onclick="changeProductView('acacia', '/acaciawood4.jpg', 'Package Overview', this, true)">
+        <img src="/acaciawood4.jpg" alt="Thumb 4" />
+      </button>
+    </div>
+
+    <div class="details-col">
+      <h3 class="details-title">Acacia Wood</h3>
+      <p id="acacia-desc" class="details-view-desc">Front View of Acacia Wood</p>
+
+      <div class="details-pkg-card">
+        <p class="details-pkg-title">Included in Package:</p>
+        <ul>
+          <li>Cutting Board</li>
+          <li>Grain Shield</li>
+          <li>Wooden Drying Stand</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / ORDER ONLINE SECTION -->
+<section id="contact">
+  <div class="stripe-bg"></div>
+  
+  <div class="order-card">
+    <h2 class="order-title">Order Online</h2>
+
+    <form class="order-form" onsubmit="event.preventDefault();">
+      <input type="text" placeholder="Your Name" class="form-input" />
+      <input type="tel" placeholder="Your Phone Number" class="form-input" />
+      <input type="text" placeholder="Your address (Flat no., area, city, state, pincode)" class="form-input" />
+
+      <div class="form-row">
+        <select class="form-select">
+          <option value="" disabled selected>Select Product</option>
+          <option value="kumbil">Kumbil Wood</option>
+          <option value="acacia">Acacia Wood</option>
+        </select>
+        
+        <select class="form-select">
+          <option value="" disabled selected>Select Quantity</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4+</option>
+        </select>
+      </div>
+
+      <button type="submit" class="whatsapp-btn">Send Order via Whatsapp</button>
+    </form>
+  </div>
+</section>
+
+<!-- TESTIMONIALS & CONTACT INFO SECTION (FULL WIDTH & LARGER FONTS) -->
+<section id="info-footer">
+  <div class="info-row-container">
+    <!-- 1. LEFT: Elephant Illustration -->
+    <div class="info-col info-elephant-col">
+      <img src="/elephant.png" alt="Elephant Illustration" class="elephant-img" />
+    </div>
+
+    <!-- 2. CENTER: Testimonials -->
+    <div class="info-col info-testimonials-col">
+      <h2 class="info-heading">Testimonials</h2>
+      
+      <div class="testimonial-item">
+        <p class="testimonial-quote">"I love how solid the board feels. It's functional, but honestly, it also feels like a beautiful piece of d&eacute;cor."</p>
+        <p class="testimonial-author">&mdash; Rohan M.</p>
+      </div>
+
+      <div class="testimonial-item">
+        <p class="testimonial-quote">"The craftsmanship stood out to me. You can really see and feel the quality of the wood."</p>
+        <p class="testimonial-author">&mdash; Meera S.</p>
+      </div>
+    </div>
+
+    <!-- 3. RIGHT: Contact Info -->
+    <div class="info-col info-contact-col">
+      <h2 class="info-heading">Contact Info</h2>
+      
+      <ul class="contact-list">
+        <li>
+          <img src="/mail.png" alt="Email Icon" class="contact-icon" />
+          <a href="mailto:contact.pinoki@gmail.com">contact.pinoki@gmail.com</a>
+        </li>
+        <li>
+          <img src="/www.png" alt="Website Icon" class="contact-icon" />
+          <a href="https://www.pinoki.in" target="_blank" rel="noopener noreferrer">www.pinoki.in</a>
+        </li>
+        <li>
+          <img src="/insta.png" alt="Instagram Icon" class="contact-icon" />
+          <a href="https://instagram.com/pinoki.in" target="_blank" rel="noopener noreferrer">@pinoki.in</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div><!-- end .pinoki-page -->
+
+<!-- AUTOMATIC SLIDESHOW SCRIPT -->
+<script is:inline>
+  const slideshows = {
+    kumbil: { currentIndex: 0, timer: null },
+    acacia: { currentIndex: 0, timer: null }
+  };
+
+  function toggleMenu() {
+    var nav = document.querySelector('header nav');
+    var btn = document.querySelector('.hamburger');
+    if (!nav || !btn) return;
+    var open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  function changeProductView(productId, imgSrc, descText, btnElement, isManual = false) {
+    const mainImg = document.getElementById(productId + '-main');
+    const descEl = document.getElementById(productId + '-desc');
+
+    if (mainImg) {
+      var preload = new Image();
+      preload.src = imgSrc;
+      preload.onload = function() {
+        mainImg.style.opacity = '0';
+        setTimeout(() => {
+          mainImg.src = imgSrc;
+          mainImg.style.opacity = '1';
+        }, 120);
+      };
+    }
+
+    if (descEl) {
+      descEl.style.opacity = '0';
+      setTimeout(() => {
+        descEl.textContent = descText;
+        descEl.style.opacity = '1';
+      }, 150);
+    }
+
+    const thumbsContainer = btnElement.parentElement;
+    const buttons = Array.from(thumbsContainer.querySelectorAll('.thumb-btn'));
+    buttons.forEach(b => b.classList.remove('active'));
+    btnElement.classList.add('active');
+
+    slideshows[productId].currentIndex = buttons.indexOf(btnElement);
+
+    if (isManual) {
+      restartAutoSlideshow(productId);
+    }
+  }
+
+  function startAutoSlideshow(productId) {
+    slideshows[productId].timer = setInterval(() => {
+      const row = document.getElementById(productId + '-row');
+      if (!row) return;
+      const buttons = row.querySelectorAll('.thumb-btn');
+      let nextIndex = (slideshows[productId].currentIndex + 1) % buttons.length;
+      buttons[nextIndex].click();
+    }, 4000);
+  }
+
+  function restartAutoSlideshow(productId) {
+    clearInterval(slideshows[productId].timer);
+    startAutoSlideshow(productId);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    startAutoSlideshow('kumbil');
+    startAutoSlideshow('acacia');
+  });
+</script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+  /* Global Strict Poppins Lock */
+  :global(*), :global(*::before), :global(*::after) {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+
+  :global(body) {
+    background-color: #FEF3EA;
+    color: #5D392D;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+
+  /* Header Navbar */
+  header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 110px;
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1.5px solid #5D392D;
+    z-index: 50;
+    background-color: #FEF3EA;
+  }
+
+  .logo-nav img {
+    height: 95px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  nav {
+    display: flex;
+    gap: 48px;
+    align-items: center;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: #5D392D;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 100%;
+    transition: opacity 0.2s;
+  }
+
+  nav a:hover {
+    opacity: 0.75;
+  }
+
+  .order-btn {
+    background-color: #5D392D;
+    color: #FEF3EA;
+    padding: 10px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+  }
+
+  .order-btn:hover {
+    opacity: 0.9;
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #5D392D;
+    border-radius: 2px;
+  }
+
+  /* HERO SECTION */
+  .hero-section {
+    position: relative;
+    height: calc(100vh - 110px);
+    min-height: 550px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #5D392D;
+    background-color: #FEF3EA;
+  }
+
+  .hero-center {
+    text-align: center;
+    z-index: 10;
+  }
+
+  .hero-logo {
+    width: 360px;
+    max-width: 70vw;
+    height: auto;
+  }
+
+  .botanical-left {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 100%;
+    width: auto;
+    max-width: 38vw;
+    pointer-events: none;
+    object-fit: fill;
+    object-position: left bottom;
+    z-index: 5;
+  }
+
+  .botanical-right {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    height: 100%;
+    width: auto;
+    max-width: 38vw;
+    pointer-events: none;
+    object-fit: fill;
+    object-position: right bottom;
+    z-index: 5;
+  }
+
+  /* ABOUT US SECTION */
+  #about {
+    position: relative;
+    padding: 80px 48px 120px 48px;
+    background-color: #FEF3EA;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .about-bg-woman {
+    position: absolute;
+    left: 20px;
+    bottom: -120px;
+    width: 360px;
+    height: auto;
+    opacity: 0.85;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .about-bg-flowers {
+    position: absolute;
+    left: 10%;
+    top: 30px;
+    width: 540px;
+    height: auto;
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .about-bg-stem {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 480px;
+    height: auto;
+    opacity: 0.85;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .about-title {
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 700;
+    font-size: 54px;
+    color: #5D392D;
+    text-align: center;
+    margin-bottom: 70px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* LEFT SIDE */
+  .left-text-block {
+    flex: 1;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    gap: 48px;
+  }
+
+  .left-text-block .item-top h3 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #5D392D;
+    line-height: 110%;
+    margin-bottom: 12px;
+  }
+
+  .left-text-block .item-top p {
+    font-size: 20px;
+    font-weight: 400;
+    color: #5D392D;
+    line-height: 135%;
+    max-width: 380px;
+  }
+
+  .left-text-block .item-bottom {
+    max-width: 360px;
+  }
+
+  .left-text-block .item-bottom p {
+    font-size: 20px;
+    font-weight: 400;
+    color: #5D392D;
+    line-height: 135%;
+  }
+
+  .center-divider {
+    width: 1.5px;
+    height: 420px;
+    background-color: #5D392D;
+    flex-shrink: 0;
+  }
+
+  /* RIGHT SIDE */
+  .right-text-container {
+    flex: 1.2;
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+  }
+
+  .right-sub-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .right-sub-col.align-with-items {
+    margin-top: 52px; 
+  }
+
+  .right-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #5D392D;
+    line-height: 110%;
+    margin-bottom: 12px;
+  }
+
+  .why-item {
+    max-width: 280px;
+  }
+
+  .why-item h4 {
+    font-weight: 700;
+    font-size: 20px;
+    color: #5D392D;
+    margin-bottom: 6px;
+    line-height: 120%;
+  }
+
+  .why-item p {
+    font-size: 16px;
+    line-height: 135%;
+    color: #5D392D;
+  }
+
+  /* PRODUCTS SECTION */
+  #products {
+    width: 100%;
+    background-color: #5D392D;
+    padding: 90px 48px;
+    position: relative;
+    clear: both;
+  }
+
+  .products-heading {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 54px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 70px;
+    text-align: center;
+  }
+
+  .product-row {
+    max-width: 1400px;
+    margin: 0 auto 120px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+  }
+
+  .stage-frame {
+    width: 540px;
+    height: 680px;
+    background-color: #ECD7D0;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    box-shadow: 0 20px 48px rgba(0,0,0,0.35);
+    flex-shrink: 0;
+  }
+
+  .stage-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    transition: opacity 0.3s ease;
+  }
+
+  .thumbs-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-shrink: 0;
+  }
+
+  .thumb-btn {
+    width: 100px;
+    height: 100px;
+    background-color: #ECD7D0;
+    border-radius: 24px;
+    border: 3px solid transparent;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.55;
+    transition: all 0.2s ease;
+  }
+
+  .thumb-btn.active, .thumb-btn:hover {
+    opacity: 1;
+    border-color: #FEF3EA;
+    transform: scale(1.08);
+  }
+
+  .thumb-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+
+  .details-col {
+    margin-left: 20px;
+    color: #FEF3EA;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .details-title {
+    font-size: 52px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+  }
+
+  .details-view-desc {
+    font-size: 26px;
+    font-weight: 500;
+    color: #ECD7D0;
+    margin-bottom: 32px;
+    height: 40px;
+    line-height: 40px;
+    transition: opacity 0.2s ease;
+  }
+
+  .details-pkg-card {
+    background: rgba(236, 215, 208, 0.1);
+    border: 1.5px solid rgba(236, 215, 208, 0.25);
+    border-radius: 28px;
+    padding: 28px 36px;
+    width: 420px;
+    height: 220px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .details-pkg-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ECD7D0;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+  }
+
+  .details-pkg-card ul {
+    list-style: none;
+  }
+
+  .details-pkg-card li {
+    font-size: 21px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .details-pkg-card li::before {
+    content: "•";
+    color: #ECD7D0;
+    font-size: 28px;
+  }
+
+  /* CONTACT / ORDER ONLINE SECTION */
+  #contact {
+    position: relative;
+    width: 100%;
+    min-height: 700px;
+    padding: 80px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #FEF3EA;
+  }
+
+  .stripe-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      90deg,
+      #5D392D 0px,
+      #5D392D 50px,
+      #FEF3EA 50px,
+      #FEF3EA 100px
+    );
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .order-card {
+    position: relative;
+    z-index: 2;
+    background-color: #5D392D;
+    width: 100%;
+    max-width: 620px;
+    border-radius: 36px;
+    padding: 48px 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    text-align: center;
+  }
+
+  .order-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #FEF3EA;
+    margin-bottom: 32px;
+  }
+
+  .order-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-input, .form-select {
+    width: 100%;
+    height: 52px;
+    background-color: #ECD7D0;
+    border: none;
+    border-radius: 12px;
+    padding: 0 20px;
+    font-size: 16px;
+    color: #5D392D;
+    outline: none;
+  }
+
+  .form-input::placeholder {
+    color: #8C6A5E;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 16px;
+  }
+
+  .form-row .form-select {
+    flex: 1;
+  }
+
+  .whatsapp-btn {
+    margin-top: 12px;
+    align-self: center;
+    background-color: #FFFFFF;
+    color: #5D392D;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px;
+    padding: 14px 36px;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .whatsapp-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+  }
+
+/* Figma-Exact Testimonials & Contact Info Section */
+#info-footer {
+  width: 100%;
+  background-color: #FEF3EA;
+  padding: 60px 80px 120px 80px;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.info-row-container {
+  width: 100%;
+  max-width: 100%;
+  display: flex !important;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+/* Left: Elephant */
+.info-elephant-col {
+  flex: 0 0 380px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.elephant-img {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Middle: Testimonials (Matches Figma Panel) */
+.info-testimonials-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  padding-right: 20px;
+}
+
+/* Right: Contact Info */
+.info-contact-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding-left: 20px;
+}
+
+/* Heading - Figma Specs: 84px, SemiBold (600), Line Height 100% */
+.info-heading {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: clamp(48px, 5vw, 72px) !important;
+  line-height: 100% !important;
+  color: #5D392D !important;
+  margin-bottom: 40px;
+  letter-spacing: 0px;
+  white-space: normal;
+}
+
+/* Testimonial Items */
+.testimonial-item {
+  margin-bottom: 36px;
+  max-width: 480px;
+}
+
+.testimonial-quote {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+  color: #5D392D !important;
+  margin-bottom: 8px;
+}
+
+.testimonial-author {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 22px !important;
+  font-weight: 600 !important;
+  color: #5D392D !important;
+  text-align: right;
+}
+
+/* Contact List */
+.contact-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 0;
+  margin: 0;
+  margin-top: 15px; /* Aligns vertically with Testimonials quotes */
+}
+
+.contact-list li {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.contact-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.contact-list a {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 26px !important;
+  color: #5D392D !important;
+  text-decoration: none;
+  font-weight: 400 !important;
+  white-space: nowrap;
+}
+
+.contact-list a:hover {
+  opacity: 0.75;
+}
+
+/* ===== RESPONSIVE: TABLET ===== */
+@media (max-width: 1024px) {
+  header {
+    height: 84px;
+    padding: 0 24px;
+  }
+
+  nav {
+    gap: 24px;
+  }
+
+  nav a {
+    font-size: 20px;
+  }
+
+  .order-btn {
+    font-size: 18px;
+    padding: 8px 20px;
+  }
+
+  .logo-nav img {
+    height: 70px;
+  }
+
+  .hero-section {
+    height: auto;
+    min-height: 460px;
+  }
+
+  .hero-logo {
+    width: 280px;
+  }
+
+  .botanical-left,
+  .botanical-right {
+    max-width: 34vw;
+  }
+
+  #about {
+    padding: 60px 32px 90px;
+  }
+
+  .about-title,
+  .products-heading {
+    font-size: 40px;
+    margin-bottom: 48px;
+  }
+
+  .about-container {
+    gap: 40px;
+  }
+
+  .left-text-block {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .about-bg-flowers {
+    width: 360px;
+    opacity: 0.3;
+  }
+
+  .about-bg-stem {
+    width: 340px;
+    opacity: 0.5;
+  }
+
+  #products {
+    padding: 70px 32px;
+  }
+
+  .product-row {
+    flex-direction: column;
+    gap: 40px;
+    margin-bottom: 80px;
+  }
+
+  .thumbs-col {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .details-col {
+    text-align: center;
+    align-items: center;
+    margin-left: 0;
+  }
+
+  .details-pkg-card {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  #contact {
+    min-height: 0;
+    padding: 60px 24px;
+  }
+
+  #info-footer {
+    padding: 40px 32px 90px;
+  }
+
+  .info-row-container {
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .info-elephant-col {
+    order: 3;
+    justify-content: center;
+  }
+
+  .info-testimonials-col,
+  .info-contact-col {
+    align-items: flex-start;
+    text-align: left;
+    padding: 0;
+  }
+
+  .testimonial-author {
+    text-align: left;
+  }
+
+  .info-heading {
+    font-size: clamp(36px, 4.5vw, 56px) !important;
+    white-space: normal;
+  }
+
+  .contact-list a {
+    font-size: 22px !important;
+    white-space: normal;
+  }
+}
+
+/* ===== RESPONSIVE: MOBILE ===== */
+@media (max-width: 640px) {
+  header {
+    height: 72px;
+    padding: 0 16px;
+  }
+
+  .logo-nav img {
+    height: 54px;
+  }
+
+  nav {
+    display: none;
+  }
+
+  nav.open {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 24px 20px;
+    background-color: #FEF3EA;
+    border-bottom: 1.5px solid #5D392D;
+  }
+
+  nav a {
+    font-size: 18px;
+  }
+
+  .order-btn {
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .hero-section {
+    min-height: 380px;
+  }
+
+  .hero-logo {
+    width: min(260px, 78vw);
+  }
+
+  #about {
+    padding: 48px 20px 80px;
+  }
+
+  .about-title,
+  .products-heading {
+    font-size: 34px;
+  }
+
+  .about-container {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .center-divider {
+    width: 100%;
+    height: 1.5px;
+  }
+
+  .right-text-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .right-sub-col.align-with-items {
+    margin-top: 0;
+  }
+
+  .left-text-block,
+  .why-item {
+    max-width: none;
+  }
+
+  .about-bg-woman {
+    width: 240px;
+    bottom: -80px;
+    opacity: 0.6;
+  }
+
+  .about-bg-flowers {
+    width: 260px;
+  }
+
+  .about-bg-stem {
+    width: 240px;
+    opacity: 0.35;
+  }
+
+  #products {
+    padding: 56px 20px;
+  }
+
+  .stage-frame {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .thumb-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+  }
+
+  .details-title {
+    font-size: 34px;
+  }
+
+  .details-view-desc {
+    font-size: 18px;
+    line-height: 1.4;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .details-pkg-card {
+    padding: 22px 20px;
+  }
+
+  .details-pkg-card li {
+    font-size: 17px;
+  }
+
+  .order-card {
+    padding: 32px 22px;
+    border-radius: 24px;
+  }
+
+  .order-title {
+    font-size: 34px;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .whatsapp-btn {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  #info-footer {
+    padding: 40px 20px 80px;
+  }
+
+  .info-row-container {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 24px;
+  }
+
+  .info-elephant-col {
+    grid-column: 1 / -1;
+    justify-content: center;
+    padding-top: 24px;
+  }
+
+  .elephant-img {
+    max-width: 150px;
+  }
+
+  .info-testimonials-col {
+    padding-right: 12px;
+  }
+
+  .info-contact-col {
+    padding-left: 12px;
+  }
+
+  .info-heading {
+    font-size: 24px !important;
+    margin-bottom: 20px;
+  }
+
+  .testimonial-item {
+    margin-bottom: 24px;
+  }
+
+  .testimonial-quote {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+
+  .testimonial-author {
+    font-size: 13px !important;
+  }
+
+  .contact-list {
+    gap: 16px;
+    margin-top: 5px;
+  }
+
+  .contact-list li {
+    gap: 10px;
+  }
+
+  .contact-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .contact-list a {
+    font-size: 15px !important;
+  }
+}
+
