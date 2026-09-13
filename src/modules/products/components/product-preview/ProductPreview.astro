@@ -26,15 +26,17 @@ const { cheapestPrice } = getProductPrice({
 >
   <Thumbnail imageUrl={thumbnailUrl || imageUrl} title={title} priority={priority} />
 
-  <div class="flex text-sm justify-between">
-    <p>{title}</p>
+  <div class="flex text-sm justify-between gap-2">
+    <p class="truncate">{title}</p>
     {
       cheapestPrice && (
-        <Price
-          priceType={cheapestPrice.price_type}
-          originalPrice={cheapestPrice.original_price}
-          calculatedPrice={cheapestPrice.calculated_price}
-        />
+        <div class="shrink-0">
+          <Price
+            priceType={cheapestPrice.price_type}
+            originalPrice={cheapestPrice.original_price}
+            calculatedPrice={cheapestPrice.calculated_price}
+          />
+        </div>
       )
     }
   </div>

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface OptimizedImageData {
   src: string;
@@ -32,6 +32,17 @@ export const ImageCarousel = ({ images, alt }: Props) => {
   const handleImageClick = (event: React.MouseEvent<HTMLImageElement>) =>
     event.stopPropagation();
 
+  useEffect(() => {
+    if (!isPreviewing) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleClosePreview();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isPreviewing]);
+
   const renderOptimizedImg = (
     data: OptimizedImageData,
     extraProps?: React.ImgHTMLAttributes<HTMLImageElement>,
@@ -61,7 +72,23 @@ export const ImageCarousel = ({ images, alt }: Props) => {
           },
         )}
         onClick={handleClosePreview}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Image preview"
       >
+        <button
+          type="button"
+          onClick={handleClosePreview}
+          aria-label="Close image preview"
+          className={clsx(
+            "absolute top-4 right-4 text-white bg-black/50 rounded-full w-10 h-10 flex items-center justify-center text-2xl leading-none hover:bg-black/70 transition-colors",
+            {
+              "opacity-0 pointer-events-none": !isPreviewing,
+            },
+          )}
+        >
+          &times;
+        </button>
         {renderOptimizedImg(currentImage.main, {
           className: "object-contain max-w-3xl",
           onClick: handleImageClick,
@@ -70,7 +97,8 @@ export const ImageCarousel = ({ images, alt }: Props) => {
 
       <div className="flex flex-col gap-4">
         {renderOptimizedImg(currentImage.main, {
-          className: "w-full object-cover cursor-pointer",
+          className:
+            "w-full aspect-[4/5] object-cover rounded-xl cursor-pointer",
           onClick: handlePreview,
           loading: "eager",
         })}
@@ -79,16 +107,18 @@ export const ImageCarousel = ({ images, alt }: Props) => {
           {images.map((image, index) => (
             <button
               key={image.originalUrl}
+              type="button"
               onClick={() => setCurrentIndex(index)}
-              className="cursor-pointer"
+              aria-label={`View image ${index + 1}`}
+              className={clsx(
+                "w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 border-transparent cursor-pointer transition-colors duration-200",
+                {
+                  "border-black shadow-md": currentIndex === index,
+                },
+              )}
             >
               {renderOptimizedImg(image.thumb, {
-                className: clsx(
-                  "aspect-square object-cover ease-in-out duration-200",
-                  {
-                    "shadow-md": currentIndex === index,
-                  },
-                ),
+                className: "w-full h-full aspect-square object-cover",
               })}
             </button>
           ))}

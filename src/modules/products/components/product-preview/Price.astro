@@ -9,8 +9,12 @@ const { priceType, originalPrice, calculatedPrice } = Astro.props;
 ---
 
 <>
-  {priceType === "sale" && <p data-testid="original-price">{originalPrice}</p>}
-  <p data-testid="price">
+  {priceType === "sale" && (
+    <p data-testid="original-price">
+      <s class="text-gray-500 mr-2">{originalPrice}</s>
+    </p>
+  )}
+  <p data-testid="price" class="font-medium">
     {calculatedPrice}
   </p>
 </>
