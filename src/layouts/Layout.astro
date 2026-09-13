@@ -43,7 +43,7 @@ if (!countryCode) {
   <head>
     <ClientRouter />
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
@@ -70,9 +70,15 @@ if (!countryCode) {
     {image && <meta name="twitter:image" content={image} />}
   </head>
   <body class="min-h-screen bg-white text-black">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:bg-black focus:text-white focus:px-4 focus:py-2 focus:rounded"
+    >
+      Skip to main content
+    </a>
     <div class="mx-auto flex min-h-screen w-full max-w-[1800px] flex-col">
       <Nav client:load countryCode={countryCode} />
-      <main class="flex-1 min-h-[calc(100vh-72px)]">
+      <main id="main-content" class="flex-1 min-h-[calc(100vh-72px)]">
         <slot />
       </main>
       <Footer countryCode={countryCode} />
@@ -89,5 +95,15 @@ if (!countryCode) {
     padding: 0;
     width: 100%;
     min-height: 100vh;
+  }
+
+  :global(a:focus-visible),
+  :global(button:focus-visible),
+  :global(input:focus-visible),
+  :global(select:focus-visible),
+  :global(textarea:focus-visible),
+  :global([tabindex]:focus-visible) {
+    outline: 2px solid #000;
+    outline-offset: 2px;
   }
 </style>
