@@ -7,6 +7,7 @@ export function getStaticPaths() {
 }
 ---
 
+<div class="pinoki-page">
 <header>
   <a href="/" class="logo-nav">
     <img src="/pinoki.png" alt="Pinoki Logo" />
@@ -18,6 +19,10 @@ export function getStaticPaths() {
     <a href="#products">Products</a>
     <a href="#info-footer">Contact</a>
   </nav>
+
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 
   <a href="#contact" class="order-btn">Order Now</a>
 </header>
@@ -239,6 +244,8 @@ export function getStaticPaths() {
   </div>
 </section>
 
+</div><!-- end .pinoki-page -->
+
 <!-- AUTOMATIC SLIDESHOW SCRIPT -->
 <script is:inline>
   const slideshows = {
@@ -246,16 +253,28 @@ export function getStaticPaths() {
     acacia: { currentIndex: 0, timer: null }
   };
 
+  function toggleMenu() {
+    var nav = document.querySelector('header nav');
+    var btn = document.querySelector('.hamburger');
+    if (!nav || !btn) return;
+    var open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
   function changeProductView(productId, imgSrc, descText, btnElement, isManual = false) {
     const mainImg = document.getElementById(productId + '-main');
     const descEl = document.getElementById(productId + '-desc');
 
     if (mainImg) {
-      mainImg.style.opacity = '0';
-      setTimeout(() => {
-        mainImg.src = imgSrc;
-        mainImg.style.opacity = '1';
-      }, 150);
+      var preload = new Image();
+      preload.src = imgSrc;
+      preload.onload = function() {
+        mainImg.style.opacity = '0';
+        setTimeout(() => {
+          mainImg.src = imgSrc;
+          mainImg.style.opacity = '1';
+        }, 120);
+      };
     }
 
     if (descEl) {
@@ -386,6 +405,24 @@ export function getStaticPaths() {
     opacity: 0.9;
   }
 
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #5D392D;
+    border-radius: 2px;
+  }
+
   /* HERO SECTION */
   .hero-section {
     position: relative;
@@ -395,6 +432,7 @@ export function getStaticPaths() {
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid #5D392D;
+    background-color: #FEF3EA;
   }
 
   .hero-center {
@@ -895,12 +933,12 @@ export function getStaticPaths() {
 .info-heading {
   font-family: 'Poppins', sans-serif !important;
   font-weight: 600 !important;
-  font-size: 84px !important;
+  font-size: clamp(48px, 5vw, 72px) !important;
   line-height: 100% !important;
   color: #5D392D !important;
   margin-bottom: 40px;
   letter-spacing: 0px;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 /* Testimonial Items */
@@ -961,5 +999,359 @@ export function getStaticPaths() {
 
 .contact-list a:hover {
   opacity: 0.75;
+}
+
+/* ===== RESPONSIVE: TABLET ===== */
+@media (max-width: 1024px) {
+  header {
+    height: 84px;
+    padding: 0 24px;
+  }
+
+  nav {
+    gap: 24px;
+  }
+
+  nav a {
+    font-size: 20px;
+  }
+
+  .order-btn {
+    font-size: 18px;
+    padding: 8px 20px;
+  }
+
+  .logo-nav img {
+    height: 70px;
+  }
+
+  .hero-section {
+    height: auto;
+    min-height: 460px;
+  }
+
+  .hero-logo {
+    width: 280px;
+  }
+
+  .botanical-left,
+  .botanical-right {
+    max-width: 34vw;
+  }
+
+  #about {
+    padding: 60px 32px 90px;
+  }
+
+  .about-title,
+  .products-heading {
+    font-size: 40px;
+    margin-bottom: 48px;
+  }
+
+  .about-container {
+    gap: 40px;
+  }
+
+  .left-text-block {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .about-bg-flowers {
+    width: 360px;
+    opacity: 0.3;
+  }
+
+  .about-bg-stem {
+    width: 340px;
+    opacity: 0.5;
+  }
+
+  #products {
+    padding: 70px 32px;
+  }
+
+  .product-row {
+    flex-direction: column;
+    gap: 40px;
+    margin-bottom: 80px;
+  }
+
+  .thumbs-col {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .details-col {
+    text-align: center;
+    align-items: center;
+    margin-left: 0;
+  }
+
+  .details-pkg-card {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  #contact {
+    min-height: 0;
+    padding: 60px 24px;
+  }
+
+  #info-footer {
+    padding: 40px 32px 90px;
+  }
+
+  .info-row-container {
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .info-elephant-col {
+    order: 3;
+    justify-content: center;
+  }
+
+  .info-testimonials-col,
+  .info-contact-col {
+    align-items: flex-start;
+    text-align: left;
+    padding: 0;
+  }
+
+  .testimonial-author {
+    text-align: left;
+  }
+
+  .info-heading {
+    font-size: clamp(36px, 4.5vw, 56px) !important;
+    white-space: normal;
+  }
+
+  .contact-list a {
+    font-size: 22px !important;
+    white-space: normal;
+  }
+}
+
+/* ===== RESPONSIVE: MOBILE ===== */
+@media (max-width: 640px) {
+  header {
+    height: 72px;
+    padding: 0 16px;
+  }
+
+  .logo-nav img {
+    height: 54px;
+  }
+
+  nav {
+    display: none;
+  }
+
+  nav.open {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 24px 20px;
+    background-color: #FEF3EA;
+    border-bottom: 1.5px solid #5D392D;
+  }
+
+  nav a {
+    font-size: 18px;
+  }
+
+  .order-btn {
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .hero-section {
+    min-height: 380px;
+  }
+
+  .hero-logo {
+    width: min(260px, 78vw);
+  }
+
+  #about {
+    padding: 48px 20px 80px;
+  }
+
+  .about-title,
+  .products-heading {
+    font-size: 34px;
+  }
+
+  .about-container {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .center-divider {
+    width: 100%;
+    height: 1.5px;
+  }
+
+  .right-text-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .right-sub-col.align-with-items {
+    margin-top: 0;
+  }
+
+  .left-text-block,
+  .why-item {
+    max-width: none;
+  }
+
+  .about-bg-woman {
+    width: 240px;
+    bottom: -80px;
+    opacity: 0.6;
+  }
+
+  .about-bg-flowers {
+    width: 260px;
+  }
+
+  .about-bg-stem {
+    width: 240px;
+    opacity: 0.35;
+  }
+
+  #products {
+    padding: 56px 20px;
+  }
+
+  .stage-frame {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .thumb-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+  }
+
+  .details-title {
+    font-size: 34px;
+  }
+
+  .details-view-desc {
+    font-size: 18px;
+    line-height: 1.4;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .details-pkg-card {
+    padding: 22px 20px;
+  }
+
+  .details-pkg-card li {
+    font-size: 17px;
+  }
+
+  .order-card {
+    padding: 32px 22px;
+    border-radius: 24px;
+  }
+
+  .order-title {
+    font-size: 34px;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .whatsapp-btn {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  #info-footer {
+    padding: 40px 20px 80px;
+  }
+
+  .info-row-container {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 24px;
+  }
+
+  .info-elephant-col {
+    grid-column: 1 / -1;
+    justify-content: center;
+    padding-top: 24px;
+  }
+
+  .elephant-img {
+    max-width: 150px;
+  }
+
+  .info-testimonials-col {
+    padding-right: 12px;
+  }
+
+  .info-contact-col {
+    padding-left: 12px;
+  }
+
+  .info-heading {
+    font-size: 24px !important;
+    margin-bottom: 20px;
+  }
+
+  .testimonial-item {
+    margin-bottom: 24px;
+  }
+
+  .testimonial-quote {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+
+  .testimonial-author {
+    font-size: 13px !important;
+  }
+
+  .contact-list {
+    gap: 16px;
+    margin-top: 5px;
+  }
+
+  .contact-list li {
+    gap: 10px;
+  }
+
+  .contact-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .contact-list a {
+    font-size: 15px !important;
+  }
 }
 
