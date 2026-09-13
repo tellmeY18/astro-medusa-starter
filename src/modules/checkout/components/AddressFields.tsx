@@ -56,6 +56,7 @@ export const AddressFields = ({
           <input
             type="text"
             placeholder="First name*"
+            autoComplete="given-name"
             {...register(f("firstName"))}
             className={`${INPUT_BASE} ${errors.firstName ? "border-red-400" : "border-gray-300"}`}
           />
@@ -65,6 +66,7 @@ export const AddressFields = ({
           <input
             type="text"
             placeholder="Last name*"
+            autoComplete="family-name"
             {...register(f("lastName"))}
             className={`${INPUT_BASE} ${errors.lastName ? "border-red-400" : "border-gray-300"}`}
           />
@@ -78,6 +80,7 @@ export const AddressFields = ({
           <input
             type="text"
             placeholder="Address*"
+            autoComplete="street-address"
             {...register(f("address"))}
             className={`${INPUT_BASE} ${errors.address ? "border-red-400" : "border-gray-300"}`}
           />
@@ -87,6 +90,7 @@ export const AddressFields = ({
           <input
             type="text"
             placeholder="Company"
+            autoComplete="organization"
             {...register(f("company"))}
             className={`${INPUT_BASE} border-gray-300`}
           />
@@ -100,6 +104,7 @@ export const AddressFields = ({
           <input
             type="text"
             placeholder="Postal code*"
+            autoComplete="postal-code"
             {...register(f("postalCode"))}
             className={`${INPUT_BASE} ${errors.postalCode ? "border-red-400" : "border-gray-300"}`}
           />
@@ -109,6 +114,7 @@ export const AddressFields = ({
           <input
             type="text"
             placeholder="City*"
+            autoComplete="address-level2"
             {...register(f("city"))}
             className={`${INPUT_BASE} ${errors.city ? "border-red-400" : "border-gray-300"}`}
           />
@@ -121,6 +127,7 @@ export const AddressFields = ({
         <div>
           <select
             {...register(f("country"))}
+            autoComplete="country"
             className={`${INPUT_BASE} ${errors.country ? "border-red-400" : "border-gray-300"} bg-white`}
           >
             <option disabled value="">
@@ -138,6 +145,7 @@ export const AddressFields = ({
           <input
             type="text"
             placeholder="State / Province"
+            autoComplete="address-level1"
             {...register(f("province"))}
             className={`${INPUT_BASE} border-gray-300`}
           />

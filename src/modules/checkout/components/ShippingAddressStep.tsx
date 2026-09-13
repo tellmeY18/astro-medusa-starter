@@ -214,6 +214,7 @@ export const ShippingAddressStep = ({
             <input
               type="email"
               placeholder="Email*"
+              autoComplete="email"
               {...register("email")}
               className={`w-full border rounded px-4 py-3 text-sm outline-none focus:border-gray-500 transition-colors ${
                 errors.email ? "border-red-400" : "border-gray-300"
@@ -227,6 +228,7 @@ export const ShippingAddressStep = ({
             <input
               type="tel"
               placeholder="Phone"
+              autoComplete="tel"
               {...register("phone")}
               className="w-full border border-gray-300 rounded px-4 py-3 text-sm outline-none focus:border-gray-500 transition-colors"
             />

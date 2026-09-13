@@ -89,7 +89,7 @@ export const CartSidebar = ({ countryCode }: CartSidebarProps) => {
             <h2 className="text-xl font-bold">Cart</h2>
             <button
               onClick={closeCartSidebar}
-              className="text-gray-500 hover:text-gray-700 text-2xl leading-none"
+              className="text-gray-500 hover:text-gray-700 text-2xl leading-none p-2.5 rounded hover:bg-gray-100 transition-colors"
               aria-label="Close cart"
             >
               &times;
