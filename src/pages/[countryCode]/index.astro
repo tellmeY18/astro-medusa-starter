@@ -7,9 +7,16 @@ export function getStaticPaths() {
 }
 ---
 
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+
+<div class="pinoki-page">
 <header>
   <a href="/" class="logo-nav">
-    <img src="/pinoki.png" alt="Pinoki Logo" />
+    <img src="/pinoki-opt.webp" alt="Pinoki Logo" width="487" height="462" />
   </a>
 
   <nav>
@@ -19,25 +26,29 @@ export function getStaticPaths() {
     <a href="#info-footer">Contact</a>
   </nav>
 
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
   <a href="#contact" class="order-btn">Order Now</a>
 </header>
 
 <!-- Hero Section -->
 <section class="hero-section">
-  <img src="/left-botanicals.png" alt="Left Botanicals" class="botanical-left" />
+  <img src="/left-botanicals-opt.webp" alt="Left Botanicals" class="botanical-left" width="349" height="797" loading="lazy" decoding="async" />
 
   <div class="hero-center">
-    <img src="/pinoki.png" alt="Pinoki - Crafted for your Happiness" class="hero-logo" />
+    <img src="/pinoki-opt.webp" alt="Pinoki - Crafted for your Happiness" class="hero-logo" width="487" height="462" />
   </div>
 
-  <img src="/right-botanicals.png" alt="Right Botanicals" class="botanical-right" />
+  <img src="/right-botanicals-opt.webp" alt="Right Botanicals" class="botanical-right" width="346" height="785" loading="lazy" decoding="async" />
 </section>
 
 <!-- About Us Section -->
 <section id="about">
-  <img src="/woman.png" alt="" class="about-bg-woman" />
-  <img src="/left.png" alt="" class="about-bg-flowers" />
-  <img src="/rightbranch.png" alt="" class="about-bg-stem" />
+  <img src="/woman-opt.webp" alt="" class="about-bg-woman" width="349" height="546" loading="lazy" decoding="async" />
+  <img src="/left-opt.webp" alt="" class="about-bg-flowers" width="561" height="795" loading="lazy" decoding="async" />
+  <img src="/rightbranch-opt.webp" alt="" class="about-bg-stem" width="528" height="845" loading="lazy" decoding="async" />
 
   <h2 class="about-title">About Us</h2>
 
@@ -91,21 +102,21 @@ export function getStaticPaths() {
   <!-- Kumbil Wood Row -->
   <div class="product-row" id="kumbil-row">
     <div class="stage-frame">
-      <img id="kumbil-main" src="/kumbilwood1.jpg" alt="Kumbil Wood" />
+      <img id="kumbil-main" src="/kumbilwood1.jpg" alt="Kumbil Wood" width="1122" height="1600" loading="lazy" decoding="async" />
     </div>
 
     <div class="thumbs-col">
       <button class="thumb-btn active" onclick="changeProductView('kumbil', '/kumbilwood1.jpg', 'Front View of Kumbil Wood', this, true)">
-        <img src="/kumbilwood1.jpg" alt="Thumb 1" />
+        <img src="/kumbilwood1.jpg" alt="Thumb 1" width="1122" height="1600" loading="lazy" decoding="async" />
       </button>
       <button class="thumb-btn" onclick="changeProductView('kumbil', '/kumbilwood2.jpg', 'Back view of Kumbil Wood', this, true)">
-        <img src="/kumbilwood2.jpg" alt="Thumb 2" />
+        <img src="/kumbilwood2.jpg" alt="Thumb 2" width="1191" height="1600" loading="lazy" decoding="async" />
       </button>
       <button class="thumb-btn" onclick="changeProductView('kumbil', '/kumbilwood3.jpg', 'Kumbil Wood with wooden drying stand', this, true)">
-        <img src="/kumbilwood3.jpg" alt="Thumb 3" />
+        <img src="/kumbilwood3.jpg" alt="Thumb 3" width="1080" height="1436" loading="lazy" decoding="async" />
       </button>
       <button class="thumb-btn" onclick="changeProductView('kumbil', '/kumbilwood4.jpg', 'Package Overview', this, true)">
-        <img src="/kumbilwood4.jpg" alt="Thumb 4" />
+        <img src="/kumbilwood4.jpg" alt="Thumb 4" width="1122" height="1600" loading="lazy" decoding="async" />
       </button>
     </div>
 
@@ -127,21 +138,21 @@ export function getStaticPaths() {
   <!-- Acacia Wood Row -->
   <div class="product-row" id="acacia-row">
     <div class="stage-frame">
-      <img id="acacia-main" src="/acaciawood1.jpg" alt="Acacia Wood" />
+      <img id="acacia-main" src="/acaciawood1.jpg" alt="Acacia Wood" width="1200" height="1593" loading="lazy" decoding="async" />
     </div>
 
     <div class="thumbs-col">
       <button class="thumb-btn active" onclick="changeProductView('acacia', '/acaciawood1.jpg', 'Front View of Acacia Wood', this, true)">
-        <img src="/acaciawood1.jpg" alt="Thumb 1" />
+        <img src="/acaciawood1.jpg" alt="Thumb 1" width="1200" height="1593" loading="lazy" decoding="async" />
       </button>
-      <button class="thumb-btn" onclick="changeProductView('acacia', '/acaciawood2.png', 'Back view of Acacia Wood', this, true)">
-        <img src="/acaciawood2.png" alt="Thumb 2" />
+      <button class="thumb-btn" onclick="changeProductView('acacia', '/acaciawood2.webp', 'Back view of Acacia Wood', this, true)">
+        <img src="/acaciawood2.webp" alt="Thumb 2" width="1200" height="1343" loading="lazy" decoding="async" />
       </button>
       <button class="thumb-btn" onclick="changeProductView('acacia', '/acaciawood3.jpg', 'Acacia Wood with wooden drying stand', this, true)">
-        <img src="/acaciawood3.jpg" alt="Thumb 3" />
+        <img src="/acaciawood3.jpg" alt="Thumb 3" width="1200" height="1595" loading="lazy" decoding="async" />
       </button>
       <button class="thumb-btn" onclick="changeProductView('acacia', '/acaciawood4.jpg', 'Package Overview', this, true)">
-        <img src="/acaciawood4.jpg" alt="Thumb 4" />
+        <img src="/acaciawood4.jpg" alt="Thumb 4" width="1200" height="1593" loading="lazy" decoding="async" />
       </button>
     </div>
 
@@ -199,7 +210,7 @@ export function getStaticPaths() {
   <div class="info-row-container">
     <!-- 1. LEFT: Elephant Illustration -->
     <div class="info-col info-elephant-col">
-      <img src="/elephant.png" alt="Elephant Illustration" class="elephant-img" />
+      <img src="/elephant-opt.webp" alt="Elephant Illustration" class="elephant-img" width="492" height="614" loading="lazy" decoding="async" />
     </div>
 
     <!-- 2. CENTER: Testimonials -->
@@ -223,21 +234,22 @@ export function getStaticPaths() {
       
       <ul class="contact-list">
         <li>
-          <img src="/mail.png" alt="Email Icon" class="contact-icon" />
+          <img src="/mail.png" alt="Email Icon" class="contact-icon" width="78" height="79" loading="lazy" decoding="async" />
           <a href="mailto:contact.pinoki@gmail.com">contact.pinoki@gmail.com</a>
         </li>
         <li>
-          <img src="/www.png" alt="Website Icon" class="contact-icon" />
+          <img src="/www.png" alt="Website Icon" class="contact-icon" width="82" height="72" loading="lazy" decoding="async" />
           <a href="https://www.pinoki.in" target="_blank" rel="noopener noreferrer">www.pinoki.in</a>
         </li>
         <li>
-          <img src="/insta.png" alt="Instagram Icon" class="contact-icon" />
+          <img src="/insta.png" alt="Instagram Icon" class="contact-icon" width="88" height="90" loading="lazy" decoding="async" />
           <a href="https://instagram.com/pinoki.in" target="_blank" rel="noopener noreferrer">@pinoki.in</a>
         </li>
       </ul>
     </div>
   </div>
 </section>
+</div>
 
 <!-- AUTOMATIC SLIDESHOW SCRIPT -->
 <script is:inline>
@@ -246,16 +258,28 @@ export function getStaticPaths() {
     acacia: { currentIndex: 0, timer: null }
   };
 
+  function toggleMenu() {
+    var nav = document.querySelector('header nav');
+    var btn = document.querySelector('.hamburger');
+    if (!nav || !btn) return;
+    var open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
   function changeProductView(productId, imgSrc, descText, btnElement, isManual = false) {
     const mainImg = document.getElementById(productId + '-main');
     const descEl = document.getElementById(productId + '-desc');
 
     if (mainImg) {
-      mainImg.style.opacity = '0';
-      setTimeout(() => {
-        mainImg.src = imgSrc;
-        mainImg.style.opacity = '1';
-      }, 150);
+      var preload = new Image();
+      preload.src = imgSrc;
+      preload.onload = function() {
+        mainImg.style.opacity = '0';
+        setTimeout(() => {
+          mainImg.src = imgSrc;
+          mainImg.style.opacity = '1';
+        }, 120);
+      };
     }
 
     if (descEl) {
@@ -300,16 +324,10 @@ export function getStaticPaths() {
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
-
-  /* Global Strict Poppins Lock */
-  :global(*), :global(*::before), :global(*::after) {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif !important;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  .pinoki-page {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FEF3EA;
+    color: #5D392D;
   }
 
   :global(html) {
@@ -317,11 +335,25 @@ export function getStaticPaths() {
   }
 
   :global(body) {
-    background-color: #FEF3EA;
-    color: #5D392D;
-    font-family: 'Poppins', sans-serif !important;
-    font-weight: 400;
     overflow-x: hidden;
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #5D392D;
+    border-radius: 2px;
   }
 
   /* Header Navbar */
@@ -395,6 +427,7 @@ export function getStaticPaths() {
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid #5D392D;
+    background-color: #FEF3EA;
   }
 
   .hero-center {
@@ -961,5 +994,74 @@ export function getStaticPaths() {
 
 .contact-list a:hover {
   opacity: 0.75;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  header { height: 84px; padding: 0 24px; }
+  nav { gap: 24px; }
+  nav a { font-size: 20px; }
+  .order-btn { font-size: 18px; padding: 8px 20px; }
+  .logo-nav img { height: 70px; }
+  .hero-section { height: auto; min-height: 460px; }
+  .hero-logo { width: 280px; }
+  .botanical-left, .botanical-right { max-width: 34vw; }
+  #about { padding: 60px 32px 90px; }
+  .about-title, .products-heading { font-size: 40px; margin-bottom: 48px; }
+  .about-container { gap: 40px; }
+  .left-text-block { align-items: flex-start; text-align: left; }
+  .about-bg-flowers { width: 360px; opacity: 0.3; }
+  .about-bg-stem { width: 340px; opacity: 0.5; }
+  #products { padding: 70px 32px; }
+  .product-row { flex-direction: column; gap: 40px; margin-bottom: 80px; }
+  .thumbs-col { flex-direction: row; flex-wrap: wrap; gap: 16px; }
+  .details-col { text-align: center; align-items: center; margin-left: 0; }
+  .details-pkg-card { width: 100%; max-width: 420px; }
+  #contact { min-height: 0; padding: 60px 24px; }
+  #info-footer { padding: 40px 32px 90px; }
+  .info-row-container { flex-direction: column; gap: 48px; }
+  .info-elephant-col { order: 3; justify-content: center; }
+  .info-testimonials-col, .info-contact-col { align-items: flex-start; text-align: left; padding: 0; }
+  .info-heading { font-size: 56px; white-space: normal; }
+  .contact-list a { font-size: 22px; white-space: normal; }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  header { height: 72px; padding: 0 16px; }
+  .logo-nav img { height: 54px; }
+  nav { display: none; }
+  nav.open { display: flex; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: flex-start; gap: 18px; padding: 24px 20px; background-color: #FEF3EA; border-bottom: 1.5px solid #5D392D; }
+  nav a { font-size: 18px; }
+  .order-btn { font-size: 16px; padding: 8px 16px; }
+  .hamburger { display: flex; }
+  .hero-section { min-height: 380px; }
+  .hero-logo { width: min(260px, 78vw); }
+  #about { padding: 48px 20px 80px; }
+  .about-title, .products-heading { font-size: 34px; }
+  .about-container { flex-direction: column; gap: 40px; }
+  .center-divider { width: 100%; height: 1.5px; }
+  .right-text-container { flex-direction: column; gap: 8px; }
+  .right-sub-col.align-with-items { margin-top: 0; }
+  .left-text-block, .why-item { max-width: none; }
+  .about-bg-woman { width: 240px; bottom: -80px; opacity: 0.6; }
+  .about-bg-flowers { width: 260px; }
+  .about-bg-stem { width: 240px; opacity: 0.35; }
+  #products { padding: 56px 20px; }
+  .stage-frame { width: 100%; height: auto; aspect-ratio: 4 / 5; padding: 20px; border-radius: 24px; }
+  .thumb-btn { width: 72px; height: 72px; border-radius: 16px; }
+  .details-title { font-size: 34px; }
+  .details-view-desc { font-size: 18px; line-height: 1.4; height: auto; margin-bottom: 20px; }
+  .details-pkg-card { padding: 22px 20px; }
+  .details-pkg-card li { font-size: 17px; }
+  .order-card { padding: 32px 22px; border-radius: 24px; }
+  .order-title { font-size: 34px; }
+  .form-row { flex-direction: column; }
+  .whatsapp-btn { width: 100%; font-size: 16px; }
+  #info-footer { padding: 40px 20px 80px; }
+  .info-row-container { gap: 32px; }
+  .info-heading { font-size: 44px; }
+  .testimonial-quote { font-size: 18px; }
+  .testimonial-author { font-size: 16px; }
 }
 
