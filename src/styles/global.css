@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
-html {
-  scroll-behavior: smooth;
+@theme {
+  --color-cream: #fef3ea;
+  --color-bark: #5d392d;
+  --color-sand: #ecd7d0;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
 }

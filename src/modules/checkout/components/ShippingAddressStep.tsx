@@ -83,7 +83,7 @@ interface ShippingAddressStepProps {
 }
 
 const CheckCircle = () => (
-  <span className="inline-flex items-center justify-center w-5 h-5 bg-black rounded-full shrink-0">
+  <span className="inline-flex items-center justify-center w-5 h-5 bg-bark rounded-full shrink-0">
     <svg
       className="w-3 h-3 text-white"
       viewBox="0 0 12 12"
@@ -178,12 +178,12 @@ export const ShippingAddressStep = ({
           <button
             type="button"
             onClick={onEdit}
-            className="text-blue-600 hover:underline text-sm"
+            className="text-bark hover:underline text-sm font-medium"
           >
             Edit
           </button>
         </div>
-        <p className="text-sm text-gray-600">Address saved.</p>
+        <p className="text-sm text-bark/70">Address saved.</p>
       </div>
     );
   }
@@ -204,7 +204,7 @@ export const ShippingAddressStep = ({
           <input
             type="checkbox"
             {...register("billingSameAsShipping")}
-            className="w-4 h-4 accent-black"
+            className="w-4 h-4 accent-bark"
           />
           <span className="text-sm">Billing address same as shipping address</span>
         </label>
@@ -216,8 +216,8 @@ export const ShippingAddressStep = ({
               placeholder="Email*"
               autoComplete="email"
               {...register("email")}
-              className={`w-full border rounded px-4 py-3 text-sm outline-none focus:border-gray-500 transition-colors ${
-                errors.email ? "border-red-400" : "border-gray-300"
+              className={`w-full border-bark/25 rounded px-4 py-3 text-sm outline-none focus:border-bark/70 transition-colors ${
+                errors.email ? "border-red-400" : "border-bark/25"
               }`}
             />
             <p className="text-red-500 text-xs mt-1 min-h-4">
@@ -230,14 +230,14 @@ export const ShippingAddressStep = ({
               placeholder="Phone"
               autoComplete="tel"
               {...register("phone")}
-              className="w-full border border-gray-300 rounded px-4 py-3 text-sm outline-none focus:border-gray-500 transition-colors"
+              className="w-full border-bark/25 rounded px-4 py-3 text-sm outline-none focus:border-bark/70 transition-colors"
             />
             <p className="min-h-4 mt-1" />
           </div>
         </div>
 
         {!billingSameAsShipping && (
-          <div className="pt-4 border-t border-gray-200">
+          <div className="pt-4 border-t border-bark/15">
             <h3 className="text-lg font-semibold mb-4">Billing Address</h3>
             <AddressFields
               prefix="billing"
@@ -255,7 +255,7 @@ export const ShippingAddressStep = ({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-black text-white py-3 px-8 rounded-md hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-bark text-cream py-3 px-8 rounded-md hover:bg-bark/85 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "Saving..." : "Continue"}
         </button>

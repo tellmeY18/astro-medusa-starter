@@ -32,16 +32,16 @@ export const PaymentStep = ({
 
   if (mode === "inactive") {
     return (
-      <div className="border-t border-gray-200 pt-6 mt-6">
-        <h2 className="text-2xl font-bold text-gray-400">Payment</h2>
+      <div className="border-t border-bark/15 pt-6 mt-6">
+        <h2 className="text-2xl font-bold text-bark/40">Payment</h2>
       </div>
     );
   }
 
   return (
-    <div className="border-t border-gray-200 pt-6 mt-6">
+    <div className="border-t border-bark/15 pt-6 mt-6">
       <h2 className="text-2xl font-bold mb-6">Payment</h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-bark/60 mb-4">
         This is a demo storefront. No real payment will be processed.
       </p>
 
@@ -51,7 +51,7 @@ export const PaymentStep = ({
         type="button"
         disabled={isPlacing}
         onClick={handlePlaceOrder}
-        className="bg-black text-white py-3 px-8 rounded-md hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="bg-bark text-cream py-3 px-8 rounded-md hover:bg-bark/85 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isPlacing ? "Placing order..." : "Place order"}
       </button>

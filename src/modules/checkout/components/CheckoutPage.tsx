@@ -45,10 +45,10 @@ export const CheckoutPage = ({ countryCode, countries }: CheckoutPageProps) => {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
         <h1 className="text-3xl font-bold mb-4">Your cart is empty</h1>
-        <p className="text-gray-600 mb-6">Add items before checking out.</p>
+        <p className="text-bark/70 mb-6">Add items before checking out.</p>
         <a
           href={`/${countryCode}/store`}
-          className="inline-block bg-black text-white py-3 px-8 rounded-md hover:bg-gray-800 transition-colors"
+          className="inline-block bg-bark text-cream py-3 px-8 rounded-md hover:bg-bark/85 transition-colors"
         >
           Continue Shopping
         </a>
@@ -73,15 +73,15 @@ export const CheckoutPage = ({ countryCode, countries }: CheckoutPageProps) => {
             onEdit={() => goToStep("address")}
           />
 
-          <div className="border-t border-gray-200 pt-6 mt-6">
+          <div className="border-t border-bark/15 pt-6 mt-6">
             <h2 className="text-2xl font-bold mb-4">Payment</h2>
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-sm text-bark/60 mb-4">
               This is a demo storefront. No real payment will be processed.
             </p>
             <button
               type="button"
               onClick={handlePlaceOrder}
-              className="bg-black text-white py-3 px-8 rounded-md hover:bg-gray-800 transition-colors"
+              className="bg-bark text-cream py-3 px-8 rounded-md hover:bg-bark/85 transition-colors"
             >
               Place order
             </button>

@@ -19,33 +19,33 @@ const companyLinks = [
 ];
 ---
 
-<footer class="border-t border-black/10 bg-stone-50">
+<footer class="border-t border-bark/15 bg-sand">
   <div class="px-6 py-12 sm:px-8 md:px-12 lg:px-16">
     <div
-      class="grid gap-10 border-b border-black/10 pb-10 md:grid-cols-2 xl:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]"
+      class="grid gap-10 border-b border-bark/15 pb-10 md:grid-cols-2 xl:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]"
     >
       <section class="max-w-md">
         <p
-          class="text-xs font-semibold uppercase tracking-[0.28em] text-black/55"
+          class="text-xs font-semibold uppercase tracking-[0.28em] text-bark/60"
         >
           My Store
         </p>
-        <h2 class="mt-4 text-3xl font-semibold tracking-tight text-black">
+        <h2 class="mt-4 text-3xl font-semibold tracking-tight text-bark">
           A storefront that feels ready to ship.
         </h2>
-        <p class="mt-4 text-sm leading-6 text-black/65">
+        <p class="mt-4 text-sm leading-6 text-bark/70">
           Built for fast browsing, clean checkout, and a polished shopping flow
           from first click to confirmed order.
         </p>
       </section>
 
       <nav aria-label="Footer shop navigation">
-        <p class="text-sm font-semibold text-black">Shop</p>
-        <ul class="mt-4 space-y-3 text-sm text-black/65">
+        <p class="text-sm font-semibold text-bark">Shop</p>
+        <ul class="mt-4 space-y-3 text-sm text-bark/70">
           {
             shopLinks.map((link) => (
               <li>
-                <a class="transition hover:text-black" href={link.href}>
+                <a class="transition hover:text-bark" href={link.href}>
                   {link.label}
                 </a>
               </li>
@@ -55,12 +55,12 @@ const companyLinks = [
       </nav>
 
       <nav aria-label="Footer company navigation">
-        <p class="text-sm font-semibold text-black">Company</p>
-        <ul class="mt-4 space-y-3 text-sm text-black/65">
+        <p class="text-sm font-semibold text-bark">Company</p>
+        <ul class="mt-4 space-y-3 text-sm text-bark/70">
           {
             companyLinks.map((link) => (
               <li>
-                <a class="transition hover:text-black" href={link.href}>
+                <a class="transition hover:text-bark" href={link.href}>
                   {link.label}
                 </a>
               </li>
@@ -70,14 +70,14 @@ const companyLinks = [
       </nav>
 
       <section>
-        <p class="text-sm font-semibold text-black">Customer Care</p>
-        <div class="mt-4 space-y-4 text-sm text-black/65">
+        <p class="text-sm font-semibold text-bark">Customer Care</p>
+        <div class="mt-4 space-y-4 text-sm text-bark/70">
           <p>
             Browse the catalog, test the cart, and explore the full purchase
             flow end to end.
           </p>
           <a
-            class="inline-flex rounded-full bg-black px-5 py-3 text-sm font-medium text-white transition hover:bg-black/85"
+            class="inline-flex rounded-full bg-bark px-5 py-3 text-sm font-medium text-cream transition hover:bg-bark/85"
             href={`/${countryCode}/store`}
           >
             Start shopping
@@ -86,7 +86,7 @@ const companyLinks = [
       </section>
     </div>
 
-    <p class="text-sm text-black/55 pt-6">
+    <p class="text-sm text-bark/60 pt-6">
       &copy; {currentYear} My Store.
     </p>
   </div>

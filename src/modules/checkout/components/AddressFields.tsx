@@ -28,7 +28,7 @@ export interface CheckoutFormValues {
 }
 
 const INPUT_BASE =
-  "w-full border rounded px-4 py-3 text-sm outline-none focus:border-gray-500 transition-colors";
+  "w-full border-bark/25 rounded px-4 py-3 text-sm outline-none focus:border-bark/70 transition-colors";
 const ERROR = "text-red-500 text-xs mt-1 min-h-4";
 const SPACER = "min-h-4 mt-1";
 
@@ -58,7 +58,7 @@ export const AddressFields = ({
             placeholder="First name*"
             autoComplete="given-name"
             {...register(f("firstName"))}
-            className={`${INPUT_BASE} ${errors.firstName ? "border-red-400" : "border-gray-300"}`}
+            className={`${INPUT_BASE} ${errors.firstName ? "border-red-400" : "border-bark/25"}`}
           />
           <p className={ERROR}>{errors.firstName?.message ?? ""}</p>
         </div>
@@ -68,7 +68,7 @@ export const AddressFields = ({
             placeholder="Last name*"
             autoComplete="family-name"
             {...register(f("lastName"))}
-            className={`${INPUT_BASE} ${errors.lastName ? "border-red-400" : "border-gray-300"}`}
+            className={`${INPUT_BASE} ${errors.lastName ? "border-red-400" : "border-bark/25"}`}
           />
           <p className={ERROR}>{errors.lastName?.message ?? ""}</p>
         </div>
@@ -82,7 +82,7 @@ export const AddressFields = ({
             placeholder="Address*"
             autoComplete="street-address"
             {...register(f("address"))}
-            className={`${INPUT_BASE} ${errors.address ? "border-red-400" : "border-gray-300"}`}
+            className={`${INPUT_BASE} ${errors.address ? "border-red-400" : "border-bark/25"}`}
           />
           <p className={ERROR}>{errors.address?.message ?? ""}</p>
         </div>
@@ -92,7 +92,7 @@ export const AddressFields = ({
             placeholder="Company"
             autoComplete="organization"
             {...register(f("company"))}
-            className={`${INPUT_BASE} border-gray-300`}
+            className={`${INPUT_BASE} border-bark/25`}
           />
           <p className={SPACER} />
         </div>
@@ -106,7 +106,7 @@ export const AddressFields = ({
             placeholder="Postal code*"
             autoComplete="postal-code"
             {...register(f("postalCode"))}
-            className={`${INPUT_BASE} ${errors.postalCode ? "border-red-400" : "border-gray-300"}`}
+            className={`${INPUT_BASE} ${errors.postalCode ? "border-red-400" : "border-bark/25"}`}
           />
           <p className={ERROR}>{errors.postalCode?.message ?? ""}</p>
         </div>
@@ -116,7 +116,7 @@ export const AddressFields = ({
             placeholder="City*"
             autoComplete="address-level2"
             {...register(f("city"))}
-            className={`${INPUT_BASE} ${errors.city ? "border-red-400" : "border-gray-300"}`}
+            className={`${INPUT_BASE} ${errors.city ? "border-red-400" : "border-bark/25"}`}
           />
           <p className={ERROR}>{errors.city?.message ?? ""}</p>
         </div>
@@ -128,7 +128,7 @@ export const AddressFields = ({
           <select
             {...register(f("country"))}
             autoComplete="country"
-            className={`${INPUT_BASE} ${errors.country ? "border-red-400" : "border-gray-300"} bg-white`}
+            className={`${INPUT_BASE} ${errors.country ? "border-red-400" : "border-bark/25"} bg-cream`}
           >
             <option disabled value="">
               Country
@@ -147,7 +147,7 @@ export const AddressFields = ({
             placeholder="State / Province"
             autoComplete="address-level1"
             {...register(f("province"))}
-            className={`${INPUT_BASE} border-gray-300`}
+            className={`${INPUT_BASE} border-bark/25`}
           />
           <p className={SPACER} />
         </div>

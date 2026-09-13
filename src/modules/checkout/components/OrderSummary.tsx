@@ -18,16 +18,16 @@ export const OrderSummary = ({ cart }: OrderSummaryProps) => {
 
       <div className="space-y-3 mb-6">
         <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Subtotal</span>
+          <span className="text-bark/70">Subtotal</span>
           <span>{convertToLocale({ amount: subtotal, currencyCode })}</span>
         </div>
-        <div className="pt-4 border-t border-gray-200 flex justify-between font-bold text-base">
+        <div className="pt-4 border-t border-bark/15 flex justify-between font-bold text-base">
           <span>Total</span>
           <span>{convertToLocale({ amount: subtotal, currencyCode })}</span>
         </div>
       </div>
 
-      <div className="border-t border-gray-200 pt-4 space-y-4">
+      <div className="border-t border-bark/15 pt-4 space-y-4">
         {cart.items.map((item) => {
           const lineTotal = item.unit_price * item.quantity;
           return (
@@ -36,23 +36,23 @@ export const OrderSummary = ({ cart }: OrderSummaryProps) => {
                 <img
                   src={item.thumbnail}
                   alt={item.product_title || "Product"}
-                  className="w-14 h-14 object-cover rounded border border-gray-200 flex-shrink-0"
+                  className="w-14 h-14 object-cover rounded border border-bark/15 flex-shrink-0"
                   loading="lazy"
                 />
               ) : (
-                <div className="w-14 h-14 bg-gray-100 rounded border border-gray-200 flex-shrink-0" />
+                <div className="w-14 h-14 bg-sand rounded border border-bark/15 flex-shrink-0" />
               )}
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm truncate">
                   {item.product_title || item.title}
                 </p>
                 {item.variant_title && (
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-bark/60">
                     Variant: {item.variant_title}
                   </p>
                 )}
                 <div className="flex justify-between mt-1 text-sm">
-                  <span className="text-gray-500">
+                  <span className="text-bark/60">
                     {item.quantity}x{" "}
                     {convertToLocale({ amount: item.unit_price, currencyCode })}
                   </span>

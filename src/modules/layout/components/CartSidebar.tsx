@@ -80,16 +80,16 @@ export const CartSidebar = ({ countryCode }: CartSidebarProps) => {
         role="dialog"
         aria-modal="true"
         aria-label="Shopping cart"
-        className={`fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-xl transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 h-full w-full max-w-md bg-cream z-50 shadow-xl transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div className="flex items-center justify-between p-6 border-b border-bark/15">
             <h2 className="text-xl font-bold">Cart</h2>
             <button
               onClick={closeCartSidebar}
-              className="text-gray-500 hover:text-gray-700 text-2xl leading-none p-2.5 rounded hover:bg-gray-100 transition-colors"
+              className="text-bark/60 hover:text-bark text-2xl leading-none p-2.5 rounded hover:bg-sand/60 transition-colors"
               aria-label="Close cart"
             >
               &times;
@@ -99,11 +99,11 @@ export const CartSidebar = ({ countryCode }: CartSidebarProps) => {
           <div className="flex-1 overflow-y-auto p-6">
             {isEmpty ? (
               <div className="flex flex-col items-center justify-center h-full text-center">
-                <p className="text-gray-500 mb-4">Your cart is empty</p>
+                <p className="text-bark/60 mb-4">Your cart is empty</p>
                 <a
                   href={`/${countryCode}/store`}
                   onClick={closeCartSidebar}
-                  className="text-sm text-blue-600 hover:underline"
+                  className="text-sm text-bark font-medium underline"
                 >
                   Continue Shopping
                 </a>
@@ -113,7 +113,7 @@ export const CartSidebar = ({ countryCode }: CartSidebarProps) => {
                 {cart?.items?.map((item) => (
                   <div
                     key={item.id}
-                    className="flex gap-4 pb-6 border-b border-gray-100 last:border-0"
+                    className="flex gap-4 pb-6 border-b border-bark/10 last:border-0"
                   >
                     {item.thumbnail && (
                       <img
@@ -133,11 +133,11 @@ export const CartSidebar = ({ countryCode }: CartSidebarProps) => {
                         {item.product_title || item.title}
                       </h3>
                       {item.variant_title && (
-                        <p className="text-xs text-gray-500 mb-1">
+                        <p className="text-xs text-bark/60 mb-1">
                           Variant: {item.variant_title}
                         </p>
                       )}
-                      <p className="text-xs text-gray-500 mb-2">
+                      <p className="text-xs text-bark/60 mb-2">
                         Quantity: {item.quantity}
                       </p>
                       <div className="flex items-center justify-between">
@@ -176,9 +176,9 @@ export const CartSidebar = ({ countryCode }: CartSidebarProps) => {
           </div>
 
           {!isEmpty && (
-            <div className="border-t border-gray-200 p-6 space-y-4">
+            <div className="border-t border-bark/15 p-6 space-y-4">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Subtotal</span>
+                <span className="text-bark/70">Subtotal</span>
                 <span className="font-medium">
                   {convertToLocale({
                     amount: itemSubtotal,
@@ -189,7 +189,7 @@ export const CartSidebar = ({ countryCode }: CartSidebarProps) => {
               <a
                 href={`/${countryCode}/cart`}
                 onClick={closeCartSidebar}
-                className="block w-full bg-black text-white py-3 px-6 rounded-md text-center hover:bg-gray-800 transition-colors"
+                className="block w-full bg-bark text-cream py-3 px-6 rounded-md text-center hover:bg-bark/85 transition-colors"
               >
                 Go to cart
               </a>

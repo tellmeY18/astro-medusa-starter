@@ -80,7 +80,7 @@ export const ProductActions = ({
     return (
       <button
         className={clsx(
-          "bg-black text-white py-4 px-8 rounded-md cursor-pointer hover:shadow-md ease-in-out duration-200",
+          "bg-bark text-cream py-4 px-8 rounded-md cursor-pointer hover:shadow-md ease-in-out duration-200",
           { "opacity-50 cursor-not-allowed": isDisabled },
         )}
         disabled={isDisabled}
@@ -111,7 +111,7 @@ export const ProductActions = ({
               <button
                 key={value.id}
                 className={clsx(
-                  "bg-gray-100 py-2 px-4 rounded-md cursor-pointer hover:shadow-md ease-in-out duration-200 w-20 h-10 box-border",
+                  "bg-sand py-2 px-4 rounded-md cursor-pointer hover:shadow-md ease-in-out duration-200 w-20 h-10 box-border",
                   { border: selectedOptions[option.id] === value.id },
                 )}
                 onClick={() => handleOptionSelect(option.id, value.id)}
@@ -125,7 +125,7 @@ export const ProductActions = ({
 
       <button
         className={clsx(
-          "bg-black text-white py-4 px-8 rounded-md cursor-pointer hover:shadow-md ease-in-out duration-200",
+          "bg-bark text-cream py-4 px-8 rounded-md cursor-pointer hover:shadow-md ease-in-out duration-200",
           { "opacity-50 cursor-not-allowed": isDisabled },
         )}
         disabled={isDisabled}

@@ -30,10 +30,10 @@ export const CartPage = ({ countryCode }: CartPageProps) => {
       {isEmpty ? (
         <div className="text-center py-16">
           <h1 className="text-3xl font-bold mb-4">Your cart is empty</h1>
-          <p className="text-gray-600 mb-6">Start adding items to your cart</p>
+          <p className="text-bark/70 mb-6">Start adding items to your cart</p>
           <a
             href={`/${countryCode}/store`}
-            className="inline-block bg-black text-white py-3 px-8 rounded-md hover:bg-gray-800 transition-colors"
+            className="inline-block bg-bark text-cream py-3 px-8 rounded-md hover:bg-bark/85 transition-colors"
           >
             Continue Shopping
           </a>
@@ -43,8 +43,8 @@ export const CartPage = ({ countryCode }: CartPageProps) => {
           <div className="lg:col-span-2">
             <h1 className="text-3xl font-bold mb-6">Cart</h1>
 
-            <div className="border border-gray-200 rounded-md overflow-hidden">
-              <div className="hidden md:grid md:grid-cols-12 gap-4 p-4 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
+            <div className="border border-bark/15 rounded-md overflow-hidden">
+              <div className="hidden md:grid md:grid-cols-12 gap-4 p-4 bg-sand/40 border-b border-bark/15 text-sm font-medium text-bark">
                 <div className="col-span-5">Item</div>
                 <div className="col-span-2 text-center">Quantity</div>
                 <div className="col-span-2 text-right">Price</div>
@@ -60,7 +60,7 @@ export const CartPage = ({ countryCode }: CartPageProps) => {
                 return (
                   <div
                     key={item.id}
-                    className="grid grid-cols-12 gap-4 p-4 border-b border-gray-200 last:border-0 items-center"
+                    className="grid grid-cols-12 gap-4 p-4 border-b border-bark/10 last:border-0 items-center"
                   >
                     <div className="col-span-12 md:col-span-5 flex gap-4">
                       {item.thumbnail && (
@@ -76,7 +76,7 @@ export const CartPage = ({ countryCode }: CartPageProps) => {
                           {item.product_title || item.title}
                         </h3>
                         {item.variant_title && (
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-bark/60">
                             Variant: {item.variant_title}
                           </p>
                         )}
@@ -89,7 +89,7 @@ export const CartPage = ({ countryCode }: CartPageProps) => {
                           onClick={() =>
                             handleQuantityChange(item.id, quantity - 1)
                           }
-                          className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-50"
+                          className="w-8 h-8 flex items-center justify-center border border-bark/25 rounded hover:bg-sand/50"
                           aria-label="Decrease quantity"
                         >
                           &minus;
@@ -102,7 +102,7 @@ export const CartPage = ({ countryCode }: CartPageProps) => {
                               parseInt(e.target.value, 10),
                             )
                           }
-                          className="w-16 px-2 py-1 border border-gray-300 rounded text-center"
+                          className="w-16 px-2 py-1 border border-bark/25 rounded text-center"
                           aria-label="Quantity"
                         >
                           {Array.from({ length: 10 }, (_, i) => i + 1).map(
@@ -117,7 +117,7 @@ export const CartPage = ({ countryCode }: CartPageProps) => {
                           onClick={() =>
                             handleQuantityChange(item.id, quantity + 1)
                           }
-                          className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-50"
+                          className="w-8 h-8 flex items-center justify-center border border-bark/25 rounded hover:bg-sand/50"
                           aria-label="Increase quantity"
                         >
                           +
@@ -163,10 +163,10 @@ export const CartPage = ({ countryCode }: CartPageProps) => {
           <div className="lg:col-span-1">
             <div className="sticky top-8">
               <h2 className="text-2xl font-bold mb-6">Summary</h2>
-              <div className="border border-gray-200 rounded-md p-6 space-y-4">
+              <div className="border border-bark/15 rounded-md p-6 space-y-4">
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Subtotal</span>
+                    <span className="text-bark/70">Subtotal</span>
                     <span>
                       {convertToLocale({
                         amount:
@@ -178,7 +178,7 @@ export const CartPage = ({ countryCode }: CartPageProps) => {
                       })}
                     </span>
                   </div>
-                  <div className="pt-4 border-t border-gray-200">
+                  <div className="pt-4 border-t border-bark/15">
                     <div className="flex justify-between text-lg font-bold">
                       <span>Total</span>
                       <span>
@@ -196,7 +196,7 @@ export const CartPage = ({ countryCode }: CartPageProps) => {
                 </div>
                 <a
                   href={`/${countryCode}/checkout`}
-                  className="w-full block text-center bg-black text-white py-4 px-6 rounded-md hover:bg-gray-800 transition-colors mt-6"
+                  className="w-full block text-center bg-bark text-cream py-4 px-6 rounded-md hover:bg-bark/85 transition-colors mt-6"
                 >
                   Go to checkout
                 </a>

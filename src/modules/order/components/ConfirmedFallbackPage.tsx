@@ -34,7 +34,7 @@ export const ConfirmedFallbackPage = ({
     >
       <div className="text-center mb-12">
         <div
-          className="inline-flex items-center justify-center w-16 h-16 bg-black rounded-full mb-6"
+          className="inline-flex items-center justify-center w-16 h-16 bg-bark rounded-full mb-6"
           aria-hidden="true"
         >
           <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none">
@@ -50,12 +50,12 @@ export const ConfirmedFallbackPage = ({
 
         <h1 className="text-4xl font-bold mb-3">Thank you for your order!</h1>
 
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-bark/60">
           Your order has been placed successfully.
           {cart?.email && (
             <>
               {" "}A confirmation email has been sent to{" "}
-              <span className="font-medium text-gray-700">{cart.email}</span>
+              <span className="font-medium text-bark">{cart.email}</span>
             </>
           )}
         </p>
@@ -66,7 +66,7 @@ export const ConfirmedFallbackPage = ({
           <h2 id="items-heading" className="text-lg font-semibold mb-4">
             Order Items
           </h2>
-          <div className="divide-y divide-gray-100 border border-gray-200 rounded-md overflow-hidden">
+          <div className="divide-y divide-bark/10 border border-bark/15 rounded-md overflow-hidden">
             {cart.items.map((item) => {
               const lineTotal = item.unit_price * item.quantity;
               return (
@@ -75,18 +75,18 @@ export const ConfirmedFallbackPage = ({
                     <img
                       src={item.thumbnail}
                       alt={item.title}
-                      className="w-16 h-16 object-cover rounded border border-gray-200 shrink-0"
+                      className="w-16 h-16 object-cover rounded border border-bark/15 shrink-0"
                       loading="lazy"
                     />
                   ) : (
-                    <div className="w-16 h-16 bg-gray-100 rounded border border-gray-200 shrink-0" />
+                    <div className="w-16 h-16 bg-sand rounded border border-bark/15 shrink-0" />
                   )}
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-sm truncate">
                       {item.product_title || item.title}
                     </p>
                     <div className="flex justify-between mt-2 text-sm">
-                      <span className="text-gray-500">
+                      <span className="text-bark/60">
                         {item.quantity} x{" "}
                         {convertToLocale({ amount: item.unit_price, currencyCode: currency })}
                       </span>
@@ -104,7 +104,7 @@ export const ConfirmedFallbackPage = ({
 
       {cart && (
         <section className="mb-8">
-          <div className="border border-gray-200 rounded-md p-4 text-sm">
+          <div className="border border-bark/15 rounded-md p-4 text-sm">
             <div className="flex justify-between font-bold">
               <span>Total</span>
               <span>{convertToLocale({ amount: subtotal, currencyCode: currency })}</span>
@@ -116,7 +116,7 @@ export const ConfirmedFallbackPage = ({
       <div className="text-center">
         <a
           href={`/${countryCode}/store`}
-          className="inline-block bg-black text-white py-3 px-10 rounded-md hover:bg-gray-800 transition-colors"
+          className="inline-block bg-bark text-cream py-3 px-10 rounded-md hover:bg-bark/85 transition-colors"
         >
           Continue Shopping
         </a>

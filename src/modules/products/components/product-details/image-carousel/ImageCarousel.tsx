@@ -113,7 +113,7 @@ export const ImageCarousel = ({ images, alt }: Props) => {
               className={clsx(
                 "w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 border-transparent cursor-pointer transition-colors duration-200",
                 {
-                  "border-black shadow-md": currentIndex === index,
+                  "border-bark shadow-md": currentIndex === index,
                 },
               )}
             >
