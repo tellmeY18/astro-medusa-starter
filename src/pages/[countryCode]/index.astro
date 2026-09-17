@@ -332,17 +332,18 @@ export function getStaticPaths() {
         const product = document.getElementById('cust-product').value;
         const quantity = document.getElementById('cust-qty').value;
 
-        // Construct pre-filled WhatsApp message
-        const message = `Hello Pinoki Team! 🪵\n\nI would like to place an order:\n\n` +
-                        `👤 *Name:* ${name}\n` +
-                        `📞 *Phone:* ${phone}\n` +
-                        `📦 *Product:* ${product}\n` +
-                        `🔢 *Quantity:* ${quantity}\n` +
-                        `📍 *Address:* ${address}\n\n` +
-                        `Please confirm payment and shipping details!`;
+       // Build structured order message with safe UTF-8 encoding
+const message = `Hello Pinoki Team! \u{1FA95}\n\n` +
+                `I would like to place an order:\n\n` +
+                `\u{1F464} *Name:* ${name}\n` +
+                `\u{1F4DE} *Phone:* ${phone}\n` +
+                `\u{1F4E6} *Product:* ${product}\n` +
+                `\u{1F522} *Quantity:* ${quantity}\n` +
+                `\u{1F427} *Address:* ${address}\n\n` +
+                `Please confirm payment and shipping details!`;
 
-        const encodedMessage = encodeURIComponent(message);
-        const waUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+const encodedMessage = encodeURIComponent(message);
+const waUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
         window.open(waUrl, '_blank');
       });
