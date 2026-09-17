@@ -312,7 +312,7 @@ export function getStaticPaths() {
     startAutoSlideshow(productId);
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     startAutoSlideshow('kumbil');
     startAutoSlideshow('acacia');
 
@@ -323,27 +323,28 @@ export function getStaticPaths() {
       orderForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        // CHANGE THIS TO YOUR WHATSAPP BUSINESS NUMBER (Country Code + Phone, No '+' or spaces)
+        // Put your actual 10-digit number here with country code (e.g. 918828059676)
         const phoneNumber = "918828059676"; 
         
-        const name = document.getElementById('cust-name').value;
-        const phone = document.getElementById('cust-phone').value;
-        const address = document.getElementById('cust-address').value;
+        const name = document.getElementById('cust-name').value.trim();
+        const phone = document.getElementById('cust-phone').value.trim();
+        const address = document.getElementById('cust-address').value.trim();
         const product = document.getElementById('cust-product').value;
         const quantity = document.getElementById('cust-qty').value;
 
-       // Build structured order message with safe UTF-8 encoding
-const message = `Hello Pinoki Team! \u{1FA95}\n\n` +
-                `I would like to place an order:\n\n` +
-                `\u{1F464} *Name:* ${name}\n` +
-                `\u{1F4DE} *Phone:* ${phone}\n` +
-                `\u{1F4E6} *Product:* ${product}\n` +
-                `\u{1F522} *Quantity:* ${quantity}\n` +
-                `\u{1F427} *Address:* ${address}\n\n` +
-                `Please confirm payment and shipping details!`;
+        // Clean text-only formatting to avoid utf-8 symbol bugs
+        const message = 
+          "Hello Pinoki Team!\n\n" +
+          "I would like to place an order:\n\n" +
+          "* Name: " + name + "\n" +
+          "* Phone: " + phone + "\n" +
+          "* Product: " + product + "\n" +
+          "* Quantity: " + quantity + "\n" +
+          "* Address: " + address + "\n\n" +
+          "Please confirm payment and shipping details!";
 
-const encodedMessage = encodeURIComponent(message);
-const waUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+        // Use direct API endpoint for better URL parameter parsing
+        const waUrl = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
 
         window.open(waUrl, '_blank');
       });
