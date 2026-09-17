@@ -775,11 +775,11 @@ export function getStaticPaths() {
     gap: 14px;
   }
 
-  .details-pkg-card li::before {
-    content: "•";
-    color: #ECD7D0;
-    font-size: 28px;
-  }
+.details-pkg-card li::before {
+  content: "\2022"; /* Escaped UTF-8 bullet point */
+  color: #ECD7D0;
+  font-size: 28px;
+}
 
   /* CONTACT / ORDER ONLINE SECTION */
   #contact {
