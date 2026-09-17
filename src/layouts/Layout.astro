@@ -1,5 +1,4 @@
 ---
-import { getRegion } from "@lib/data/regions";
 import { CartSidebar } from "@modules/layout/components/CartSidebar";
 import Footer from "@modules/layout/components/Footer.astro";
 import { Nav } from "@modules/layout/components/Nav";
@@ -14,9 +13,9 @@ interface Props {
   noindex?: boolean;
 }
 
-const SITE_NAME = "Astro + Medusa Starter";
+const SITE_NAME = "My Store";
 const DEFAULT_DESCRIPTION =
-  "E-commerce starter template built with Astro and Medusa for maximum performance.";
+  "A simple, fast e-commerce storefront built with Astro.";
 
 const {
   title,
@@ -29,7 +28,7 @@ const {
 const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
 const canonicalUrl = new URL(
   Astro.url.pathname,
-  Astro.site ?? Astro.url.origin
+  Astro.site ?? Astro.url.origin,
 );
 
 const { countryCode } = Astro.params;
@@ -37,9 +36,6 @@ const { countryCode } = Astro.params;
 if (!countryCode) {
   return Astro.redirect("/not-found");
 }
-
-const region = await getRegion(countryCode);
-const regionId = region?.id || null;
 ---
 
 <!doctype html>
@@ -48,15 +44,6 @@ const regionId = region?.id || null;
     <ClientRouter />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link
-      rel="dns-prefetch"
-      href="//medusa-public-images.s3.eu-west-1.amazonaws.com"
-    />
-    <link
-      rel="preconnect"
-      href="https://medusa-public-images.s3.eu-west-1.amazonaws.com"
-      crossorigin
-    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
@@ -67,7 +54,6 @@ const regionId = region?.id || null;
 
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-    <!-- Open Graph -->
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={type} />
@@ -75,7 +61,6 @@ const regionId = region?.id || null;
     <meta property="og:site_name" content={SITE_NAME} />
     {image && <meta property="og:image" content={image} />}
 
-    <!-- Twitter Card -->
     <meta
       name="twitter:card"
       content={image ? "summary_large_image" : "summary"}
@@ -86,7 +71,7 @@ const regionId = region?.id || null;
   </head>
   <body class="min-h-screen bg-white text-black">
     <div class="mx-auto flex min-h-screen w-full max-w-[1800px] flex-col">
-      <Nav client:load countryCode={countryCode} regionId={regionId} />
+      <Nav client:load countryCode={countryCode} />
       <main class="flex-1 min-h-[calc(100vh-72px)]">
         <slot />
       </main>

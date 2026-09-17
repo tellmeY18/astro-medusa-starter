@@ -1,12 +1,11 @@
 ---
 import { getProductPrice } from "../../../../lib/utils/get-product-price";
-import type { ProductVariant } from "../../../../types/global";
 import Thumbnail from "../thumbnail/Thumbnail.astro";
 import Price from "./Price.astro";
 
 interface Props {
   id: string;
-  variants: ProductVariant[];
+  variants: { id: string; price?: number }[];
   thumbnailUrl?: string;
   imageUrl?: string;
   title: string;
@@ -32,7 +31,7 @@ const { cheapestPrice } = getProductPrice({
     {
       cheapestPrice && (
         <Price
-          priceType={cheapestPrice.price_type ?? ""}
+          priceType={cheapestPrice.price_type}
           originalPrice={cheapestPrice.original_price}
           calculatedPrice={cheapestPrice.calculated_price}
         />

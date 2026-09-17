@@ -1,39 +1,18 @@
-import { sdk } from "../sdk";
+import { mockProducts } from "../data/mock-products";
+import { mockRegion } from "../data/mock-regions";
 
 interface ProductParams {
-  params: {
-    countryCode: string;
-    productId: string;
-  };
+  params: { countryCode: string; productId: string };
 }
 
 export const getProductParams = async (): Promise<ProductParams[]> => {
-  try {
-    const { regions } = await sdk.store.region.list();
-    const { products } = await sdk.store.product.list();
-
-    let paths: ProductParams[] = [];
-
-    regions.forEach((region) => {
-      region.countries?.forEach((country) => {
-        products.forEach((product) => {
-          if (!country.iso_2) {
-            return;
-          }
-
-          paths.push({
-            params: {
-              countryCode: country.iso_2.toLowerCase(),
-              productId: product.id,
-            },
-          });
-        });
+  const paths: ProductParams[] = [];
+  for (const country of mockRegion.countries) {
+    for (const product of mockProducts) {
+      paths.push({
+        params: { countryCode: country.iso_2, productId: product.id },
       });
-    });
-
-    return paths;
-  } catch (error) {
-    console.error(error);
-    return [];
+    }
   }
+  return paths;
 };

@@ -13,7 +13,7 @@ export const convertToLocale = ({
   currencyCode,
   minimumFractionDigits,
   maximumFractionDigits,
-  locale = "en-US",
+  locale = "en-IN",
 }: ConvertToLocaleParams) => {
   return currencyCode && !isEmpty(currencyCode)
     ? new Intl.NumberFormat(locale, {
