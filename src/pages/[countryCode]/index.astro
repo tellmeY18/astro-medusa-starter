@@ -18,6 +18,7 @@ export function getStaticPaths() {
     <a href="#about">About Us</a>
     <a href="#products">Products</a>
     <a href="#info-footer">Contact</a>
+    <a href="#contact" class="order-btn menu-order-cta">Order Now</a>
   </nav>
 
   <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
@@ -26,6 +27,8 @@ export function getStaticPaths() {
 
   <a href="#contact" class="order-btn">Order Now</a>
 </header>
+
+<div class="menu-backdrop"></div>
 
 <!-- Hero Section -->
 <section class="hero-section">
@@ -258,7 +261,19 @@ export function getStaticPaths() {
     var btn = document.querySelector('.hamburger');
     if (!nav || !btn) return;
     var open = nav.classList.toggle('open');
+    btn.classList.toggle('is-open', open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.classList.toggle('menu-open', open);
+  }
+
+  function closeMenu() {
+    var nav = document.querySelector('header nav');
+    var btn = document.querySelector('.hamburger');
+    if (!nav || !btn) return;
+    nav.classList.remove('open');
+    btn.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
   }
 
   function changeProductView(productId, imgSrc, descText, btnElement, isManual = false) {
@@ -315,6 +330,11 @@ export function getStaticPaths() {
 document.addEventListener("DOMContentLoaded", () => {
     startAutoSlideshow('kumbil');
     startAutoSlideshow('acacia');
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+    const menuBackdrop = document.querySelector('.menu-backdrop');
+    if (menuBackdrop) menuBackdrop.addEventListener('click', closeMenu);
+    document.querySelectorAll('header nav a').forEach((a) => a.addEventListener('click', closeMenu));
 
     // Handle WhatsApp Form Submission
     const orderForm = document.getElementById('whatsapp-form');
@@ -439,6 +459,10 @@ document.addEventListener("DOMContentLoaded", () => {
     opacity: 0.9;
   }
 
+  .menu-order-cta {
+    display: none;
+  }
+
   .hamburger {
     display: none;
     flex-direction: column;
@@ -455,6 +479,19 @@ document.addEventListener("DOMContentLoaded", () => {
     height: 2px;
     background-color: #5D392D;
     border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .hamburger.is-open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .hamburger.is-open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.is-open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
   }
 
   /* HERO SECTION */
@@ -1191,11 +1228,55 @@ document.addEventListener("DOMContentLoaded", () => {
       left: 0;
       right: 0;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: stretch;
       gap: 18px;
-      padding: 24px 20px;
+      padding: 24px 20px 28px;
       background-color: #FEF3EA;
       border-bottom: 1.5px solid #5D392D;
+      box-shadow: 0 16px 32px rgba(93, 57, 45, 0.14);
+      animation: menu-drop 0.25s ease;
+    }
+
+    @keyframes menu-drop {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .menu-backdrop {
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(93, 57, 45, 0.28);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 40;
+    }
+
+    :global(body.menu-open) .menu-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    header > .order-btn {
+      display: none;
+    }
+
+    .menu-order-cta {
+      display: inline-flex;
+      width: 100%;
+      justify-content: center;
+      margin-top: 10px;
+      font-size: 16px;
+      padding: 12px 16px;
     }
 
     nav a {
