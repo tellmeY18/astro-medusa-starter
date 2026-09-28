@@ -19,13 +19,13 @@ interface Props {
     values?: { id: string; value: string }[];
   }[];
   variants: Variant[];
-  productId: string;
+  productTitle: string;
 }
 
 export const ProductActions = ({
   options,
   variants,
-  productId,
+  productTitle,
 }: Props) => {
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, string>
@@ -33,17 +33,30 @@ export const ProductActions = ({
   const [isAdding, setIsAdding] = useState(false);
 
   const selectedVariant = useMemo(() => {
-    if (
-      !variants.length ||
-      !options.length ||
-      Object.keys(selectedOptions).length !== options.length
-    ) {
+    if (!variants.length) {
+      return;
+    }
+    // No options to choose: the single variant is always the selected one.
+    if (!options.length) {
+      return variants[0];
+    }
+    if (Object.keys(selectedOptions).length !== options.length) {
       return;
     }
     return variants.find((variant) =>
-      variant.options?.every(
-        (opt) => opt.id === selectedOptions[opt.option_id!],
-      ),
+      options.every((option) => {
+        const selectedValueId = selectedOptions[option.id];
+        if (!selectedValueId) return false;
+        const selectedValue = option.values?.find(
+          (value) => value.id === selectedValueId,
+        );
+        // Variants store the option's value ("M"), not the value's id.
+        return variant.options?.some(
+          (variantOption) =>
+            variantOption.option_id === option.id &&
+            variantOption.value === selectedValue?.value,
+        );
+      }),
     );
   }, [selectedOptions, variants, options]);
 
@@ -56,12 +69,7 @@ export const ProductActions = ({
     setIsAdding(true);
     try {
       addToCart(selectedVariant.id, 1, {
-        title: options.map((o) => {
-          const val = o.values?.find(
-            (v) => v.id === selectedOptions[o.id],
-          );
-          return val?.value ?? "";
-        }).filter(Boolean).join(" / ") || "Item",
+        title: productTitle,
         variant_title: selectedVariant.title,
         thumbnail: undefined,
         price: selectedVariant.price,
@@ -84,17 +92,7 @@ export const ProductActions = ({
           { "opacity-50 cursor-not-allowed": isDisabled },
         )}
         disabled={isDisabled}
-        onClick={() => {
-          if (variants[0]) {
-            setIsAdding(true);
-            addToCart(variants[0].id, 1, {
-              title: variants[0].title,
-              variant_title: variants[0].title,
-              price: variants[0].price,
-            });
-            setIsAdding(false);
-          }
-        }}
+        onClick={handleAddToCart}
       >
         {isAdding ? "Adding..." : "Add to Cart"}
       </button>

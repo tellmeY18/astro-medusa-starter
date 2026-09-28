@@ -1,7 +1,8 @@
 import { atom, computed } from "nanostores";
-import type { CartItem, LocalCart } from "@lib/types/global";
+import type { CartItem, LocalCart, OrderSnapshot } from "@lib/types/global";
 
 const CART_STORAGE_KEY = "store_cart";
+const ORDER_SNAPSHOT_KEY = "store_cart_snapshot";
 
 export const $cart = atom<LocalCart | null>(null);
 export const $isCartSidebarOpen = atom<boolean>(false);
@@ -123,6 +124,7 @@ export function updateLineItemQuantity(
 
 export function updateCartAddress(data: {
   email?: string;
+  phone?: string;
   shipping_address?: Record<string, string>;
   billing_address?: Record<string, string>;
 }): void {
@@ -136,6 +138,12 @@ export function updateCartAddress(data: {
 export function completeCart(): void {
   localStorage.removeItem(CART_STORAGE_KEY);
   $cart.set(null);
+}
+
+/** Hands the placed order to the confirmation page, which outlives the cart. */
+export function persistOrderSnapshot(snapshot: OrderSnapshot): void {
+  if (typeof window === "undefined") return;
+  sessionStorage.setItem(ORDER_SNAPSHOT_KEY, JSON.stringify(snapshot));
 }
 
 export function toggleCartSidebar(): void {

@@ -149,6 +149,7 @@ export const ShippingAddressStep = ({
 
       await updateCartAddress({
         email: data.email,
+        phone: data.phone,
         shipping_address: shippingAddress,
         billing_address: data.billingSameAsShipping
           ? shippingAddress

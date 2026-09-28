@@ -22,11 +22,24 @@ export type CartItem = {
   product_title?: string;
 };
 
+export type CartPayment = {
+  provider: "razorpay";
+  payment_id: string;
+  order_id: string;
+};
+
 export type LocalCart = {
   id: string;
   items: CartItem[];
   currency_code: string;
   email?: string;
+  phone?: string;
   shipping_address?: Record<string, string>;
   billing_address?: Record<string, string>;
+};
+
+/** Handed to the confirmation page after a successful checkout. */
+export type OrderSnapshot = {
+  cart: LocalCart;
+  payment?: CartPayment;
 };

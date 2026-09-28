@@ -1,5 +1,5 @@
 import { convertToLocale } from "@lib/utils/money";
-import type { LocalCart } from "@lib/types/global";
+import type { OrderSnapshot } from "@lib/types/global";
 import { useEffect, useState } from "react";
 
 interface ConfirmedFallbackPageProps {
@@ -9,18 +9,20 @@ interface ConfirmedFallbackPageProps {
 export const ConfirmedFallbackPage = ({
   countryCode,
 }: ConfirmedFallbackPageProps) => {
-  const [cart, setCart] = useState<LocalCart | null>(null);
+  const [snapshot, setSnapshot] = useState<OrderSnapshot | null>(null);
 
   useEffect(() => {
     try {
       const raw = sessionStorage.getItem("store_cart_snapshot");
       if (raw) {
-        setCart(JSON.parse(raw));
+        setSnapshot(JSON.parse(raw) as OrderSnapshot);
         sessionStorage.removeItem("store_cart_snapshot");
       }
     } catch {}
   }, []);
 
+  const cart = snapshot?.cart ?? null;
+  const payment = snapshot?.payment;
   const currency = cart?.currency_code ?? "inr";
   const subtotal = cart?.items?.reduce(
     (s, i) => s + i.unit_price * i.quantity,
@@ -51,7 +53,9 @@ export const ConfirmedFallbackPage = ({
         <h1 className="text-4xl font-bold mb-3">Thank you for your order!</h1>
 
         <p className="text-sm text-gray-500">
-          Your order has been placed successfully.
+          {payment
+            ? "Your payment was received and your order is confirmed."
+            : "Your order has been placed successfully."}
           {cart?.email && (
             <>
               {" "}A confirmation email has been sent to{" "}
@@ -59,6 +63,19 @@ export const ConfirmedFallbackPage = ({
             </>
           )}
         </p>
+
+        {payment && (
+          <dl className="mt-6 inline-block text-left text-xs text-gray-500 space-y-1 border border-gray-200 rounded-md px-4 py-3">
+            <div className="flex gap-3">
+              <dt>Payment ID</dt>
+              <dd className="font-mono text-gray-700">{payment.payment_id}</dd>
+            </div>
+            <div className="flex gap-3">
+              <dt>Order ID</dt>
+              <dd className="font-mono text-gray-700">{payment.order_id}</dd>
+            </div>
+          </dl>
+        )}
       </div>
 
       {cart && (

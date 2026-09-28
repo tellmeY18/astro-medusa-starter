@@ -1,0 +1,6 @@
+# Local-only secrets for `wrangler dev` / `astro dev`.
+# Copy to `.dev.vars` (git-ignored) and fill in Razorpay TEST keys.
+# Never put production keys here — deploy those with `wrangler secret put`.
+
+RAZORPAY_KEY_SECRET=
+RAZORPAY_WEBHOOK_SECRET=

@@ -12,7 +12,7 @@ Static-first architecture. Interactive where it matters. Zero compromise on perf
 | UI         | [React 19](https://react.dev) — only where you need it                                   |
 | Styling    | [Tailwind CSS v4](https://tailwindcss.com) — zero-config Vite plugin                     |
 | Backend    | [Medusa v2](https://medusajs.com) — headless commerce engine                             |
-| Payments   | [Stripe](https://stripe.com) — secure checkout                                           |
+| Payments   | [Razorpay](https://razorpay.com) — feature-flagged checkout                           |
 | State      | [Nanostores](https://github.com/nanostores/nanostores) — tiny, framework-agnostic stores |
 | Forms      | [React Hook Form](https://react-hook-form.com) + [Zod](https://zod.dev) validation       |
 | Deployment | [Cloudflare Workers](https://workers.cloudflare.com) — edge-first                        |
@@ -62,6 +62,74 @@ Static-first architecture. Interactive where it matters. Zero compromise on perf
 | `/:country/order/confirmed`  | Order confirmation                               |
 
 All routes are prefixed with an ISO-2 country code for region-based pricing and shipping.
+
+## Payments (Razorpay)
+
+Razorpay checkout is fully implemented but ships **inert**. Until the feature flag is
+flipped, the checkout step shows the original demo "Place order" button, so nothing about
+the storefront changes.
+
+| Variable                     | Where it lives      | Purpose                                    |
+| ---------------------------- | ------------------- | ------------------------------------------ |
+| `PUBLIC_RAZORPAY_ENABLED`    | build / deploy env  | Feature flag — `"true"` takes real payments |
+| `PUBLIC_RAZORPAY_KEY_ID`     | build / deploy env  | Publishable key id, safe for the browser   |
+| `RAZORPAY_KEY_SECRET`        | Cloudflare runtime  | Signs orders and verifies payments         |
+| `RAZORPAY_WEBHOOK_SECRET`    | Cloudflare runtime  | Verifies inbound webhooks                  |
+
+### How a payment flows
+
+1. `POST /api/razorpay/create-order` — the browser sends only variant ids and quantities.
+   The server rebuilds the total from the product catalog (`src/lib/razorpay/quote.ts`), so
+   a tampered cart cannot change the amount, then creates a Razorpay order.
+2. `checkout.js` opens the Razorpay modal. On success it returns a signed payload.
+3. `POST /api/razorpay/verify-payment` — the server checks the HMAC of
+   `order_id|payment_id` against the key secret before the order is treated as paid.
+4. `POST /api/razorpay/webhook` — catches payments that settle after the customer closes
+   the tab, which the browser-side check alone would miss.
+
+The key secret is read from the Cloudflare runtime via `getSecret()`, never from build-time
+env, so it is never baked into the bundle.
+
+### Enabling payments
+
+```bash
+# 1. Add the secrets to the Worker (once)
+yarn wrangler secret put RAZORPAY_KEY_SECRET
+yarn wrangler secret put RAZORPAY_WEBHOOK_SECRET
+
+# 2. Point the flag at the live key and deploy
+PUBLIC_RAZORPAY_ENABLED=true PUBLIC_RAZORPAY_KEY_ID=rzp_live_... yarn build
+yarn wrangler deploy
+```
+
+No code changes are needed to go live — setting the flag and redeploying is the whole
+switch. Locally, `cp .dev.vars.example .dev.vars` and fill in Razorpay test keys to try the
+real payment modal without deploying.
+
+### Testing locally
+
+```bash
+cp .dev.vars.example .dev.vars   # add your Razorpay TEST key secret
+# .env: PUBLIC_RAZORPAY_ENABLED=true, PUBLIC_RAZORPAY_KEY_ID=rzp_test_...
+yarn dev                         # http://localhost:8000
+```
+
+Then buy something with a Razorpay **test** card or UPI id from
+[dashboard.razorpay.com/app/keys](https://dashboard.razorpay.com/app/keys) → Test mode.
+Test payments appear in the dashboard but no real money moves.
+
+Checklist:
+
+| Check                          | Expected                                                              |
+| ------------------------------ | --------------------------------------------------------------------- |
+| Flag `false`                   | Button reads "Place order", no Razorpay, `/api/razorpay/*` returns 404 |
+| Flag `true`, no secrets set    | 503 "Payments are not configured"                                     |
+| Flag `true`, good keys         | Razorpay modal opens; confirmation shows Payment ID and Order ID      |
+| Server log on success          | `[razorpay] captured payment=… order=… amount=…`                      |
+| Webhook replayed with bad sig  | 400 "Invalid signature"                                               |
+
+> Orders are read from the Razorpay dashboard; nothing is persisted in the app. The
+> `create-order` endpoint is unauthenticated, so add rate limiting before a public launch.
 
 ## Getting Started
 

@@ -1,8 +1,9 @@
-import { $cart, updateCartAddress, completeCart } from "@lib/stores/cart";
+import { $cart } from "@lib/stores/cart";
 import { useStore } from "@nanostores/react";
 import { useEffect, useState } from "react";
 import { type RegionCountry } from "./AddressFields";
 import { OrderSummary } from "./OrderSummary";
+import { PaymentStep } from "./PaymentStep";
 import { ShippingAddressStep } from "./ShippingAddressStep";
 
 interface CheckoutPageProps {
@@ -56,11 +57,6 @@ export const CheckoutPage = ({ countryCode, countries }: CheckoutPageProps) => {
     );
   }
 
-  const handlePlaceOrder = () => {
-    completeCart();
-    window.location.href = `/${countryCode}/order/confirmed`;
-  };
-
   return (
     <div className="max-w-7xl mx-auto px-8 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -73,19 +69,11 @@ export const CheckoutPage = ({ countryCode, countries }: CheckoutPageProps) => {
             onEdit={() => goToStep("address")}
           />
 
-          <div className="border-t border-gray-200 pt-6 mt-6">
-            <h2 className="text-2xl font-bold mb-4">Payment</h2>
-            <p className="text-sm text-gray-500 mb-4">
-              This is a demo storefront. No real payment will be processed.
-            </p>
-            <button
-              type="button"
-              onClick={handlePlaceOrder}
-              className="bg-black text-white py-3 px-8 rounded-md hover:bg-gray-800 transition-colors"
-            >
-              Place order
-            </button>
-          </div>
+          <PaymentStep
+            cart={cart}
+            countryCode={countryCode}
+            mode={step === "address" ? "inactive" : "edit"}
+          />
         </div>
 
         <div className="lg:col-span-1">

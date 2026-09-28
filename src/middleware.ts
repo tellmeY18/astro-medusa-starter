@@ -12,6 +12,10 @@ function isStaticOrInternalPath(pathname: string) {
   ) {
     return true;
   }
+  // Server endpoints are not country-scoped, so never redirect them.
+  if (pathname === "/api" || pathname.startsWith("/api/")) {
+    return true;
+  }
   if (
     pathname === "/favicon.ico" ||
     pathname === "/robots.txt" ||
