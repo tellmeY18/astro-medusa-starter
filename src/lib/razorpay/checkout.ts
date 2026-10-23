@@ -106,6 +106,7 @@ async function postJson<T>(path: string, body: unknown): Promise<T> {
 
 export type CheckoutOrder = {
   id: string;
+  order_id?: string;
   amount: number;
   currency: string;
   keyId: string;
@@ -117,11 +118,11 @@ export function requestCheckoutOrder(input: {
   email?: string;
   phone?: string;
 }): Promise<CheckoutOrder> {
-  return postJson<CheckoutOrder>("/api/razorpay/create-order", input);
+  return postJson<CheckoutOrder>("/api/payment/create-order", input);
 }
 
 export function requestPaymentVerification(
   response: RazorpayCheckoutResponse,
-): Promise<{ ok: true }> {
-  return postJson<{ ok: true }>("/api/razorpay/verify-payment", response);
+): Promise<{ ok: true; verified?: boolean; order_id?: string }> {
+  return postJson<{ ok: true; verified?: boolean; order_id?: string }>("/api/payment/verify", response);
 }

@@ -36,6 +36,10 @@ export type LocalCart = {
   phone?: string;
   shipping_address?: Record<string, string>;
   billing_address?: Record<string, string>;
+  item_subtotal?: number;
+  shipping_total?: number;
+  tax_total?: number;
+  total?: number;
 };
 
 /** Handed to the confirmation page after a successful checkout. */

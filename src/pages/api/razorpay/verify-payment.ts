@@ -19,10 +19,6 @@ const json = (body: unknown, status = 200) =>
  * treat the payment as settled.
  */
 export const POST: APIRoute = async ({ request }) => {
-  if (!isRazorpayEnabled) {
-    return json({ message: "Payments are not available" }, 404);
-  }
-
   let body: Record<string, unknown>;
   try {
     body = await request.json();
@@ -47,10 +43,10 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (!verified) {
       console.warn(`[razorpay] signature mismatch for payment ${paymentId}`);
-      return json({ message: "Payment verification failed" }, 400);
+      return json({ message: "Payment verification failed", verified: false }, 400);
     }
 
-    return json({ ok: true });
+    return json({ verified: true, order_id: orderId, ok: true });
   } catch (error) {
     if (error instanceof RazorpayConfigError) {
       console.error(`[razorpay] ${error.message}`);

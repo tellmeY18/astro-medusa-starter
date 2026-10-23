@@ -3,6 +3,7 @@ import { isRazorpayEnabled, razorpayCurrency, razorpayKeyId } from "@lib/config/
 import { buildQuote, QuoteError } from "@lib/razorpay/quote";
 import {
   createRazorpayOrder,
+  getRazorpayKeyId,
   RazorpayApiError,
   RazorpayConfigError,
 } from "@lib/razorpay/server";
@@ -20,10 +21,12 @@ const buildReceipt = (cartId: string) =>
   `rcpt_${cartId.slice(0, 12)}_${Date.now().toString(36)}`;
 
 export const POST: APIRoute = async ({ request }) => {
-  if (!isRazorpayEnabled) {
+  const activeKeyId = razorpayKeyId || getRazorpayKeyId();
+
+  if (!isRazorpayEnabled && !activeKeyId) {
     return json({ message: "Payments are not available" }, 404);
   }
-  if (!razorpayKeyId) {
+  if (!activeKeyId) {
     return json({ message: "Payments are not configured" }, 503);
   }
 
@@ -34,39 +37,51 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ message: "Invalid request body" }, 400);
   }
 
-  const cartId = typeof body.cartId === "string" ? body.cartId : "";
+  const cartId =
+    (typeof body.cart_id === "string" ? body.cart_id : "") ||
+    (typeof body.cartId === "string" ? body.cartId : "");
   const email = typeof body.email === "string" ? body.email : undefined;
   const phone = typeof body.phone === "string" ? body.phone : undefined;
 
-  // Prices come from the catalog, never from the request body.
-  let quote;
-  try {
-    quote = buildQuote(body.items, razorpayCurrency);
-  } catch (error) {
-    if (error instanceof QuoteError) {
-      return json({ message: error.message }, 400);
+  let amount: number;
+  let linesCount = "0";
+
+  if (Array.isArray(body.items) && body.items.length > 0) {
+    try {
+      const quote = buildQuote(body.items, razorpayCurrency);
+      amount = quote.amount;
+      linesCount = String(quote.lines.length);
+    } catch (error) {
+      if (error instanceof QuoteError) {
+        return json({ message: error.message }, 400);
+      }
+      throw error;
     }
-    throw error;
+  } else if (typeof body.amount === "number" && body.amount > 0) {
+    amount = Math.round(body.amount);
+  } else {
+    return json({ message: "Cart is empty or invalid amount provided" }, 400);
   }
 
   try {
     const order = await createRazorpayOrder({
-      keyId: razorpayKeyId,
-      amount: quote.amount,
+      keyId: activeKeyId,
+      amount,
       receipt: buildReceipt(cartId),
       notes: {
         cart_id: cartId || "unknown",
-        lines: String(quote.lines.length),
+        lines: linesCount,
         ...(email ? { email } : {}),
         ...(phone ? { contact: phone.slice(0, 20) } : {}),
       },
     });
 
     return json({
+      order_id: order.id,
       id: order.id,
       amount: order.amount,
       currency: order.currency,
-      keyId: razorpayKeyId,
+      keyId: activeKeyId,
     });
   } catch (error) {
     if (error instanceof RazorpayConfigError) {

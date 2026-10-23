@@ -18,12 +18,38 @@ export class RazorpayApiError extends Error {
  * Secrets are read from the Cloudflare runtime (wrangler secret / .dev.vars),
  * never from build-time env, so the key secret is not baked into the bundle.
  */
+function getProcessEnv(name: string): string | undefined {
+  return (
+    globalThis as unknown as {
+      process?: { env?: Record<string, string | undefined> };
+    }
+  ).process?.env?.[name];
+}
+
 function requireSecret(name: string): string {
-  const value = getSecret(name);
+  let value: string | undefined;
+  try {
+    value = getSecret(name);
+  } catch {}
+  if (!value) {
+    value = getProcessEnv(name);
+  }
   if (!value) {
     throw new RazorpayConfigError(`${name} is not configured`);
   }
   return value;
+}
+
+export function getRazorpayKeyId(): string {
+  let value: string | undefined;
+  try {
+    value = getSecret("RAZORPAY_KEY_ID") || getSecret("PUBLIC_RAZORPAY_KEY_ID");
+  } catch {}
+  if (!value) {
+    value =
+      getProcessEnv("RAZORPAY_KEY_ID") || getProcessEnv("PUBLIC_RAZORPAY_KEY_ID");
+  }
+  return value || "";
 }
 
 export const getRazorpayKeySecret = (): string =>

@@ -1,6 +1,6 @@
 export const isProductInStock = (productVariant: {
-  manage_inventory: boolean | null;
-  allow_backorder: boolean | null;
+  manage_inventory?: boolean | null;
+  allow_backorder?: boolean | null;
   inventory_quantity?: number | null;
 }) => {
   if (!productVariant.manage_inventory) {

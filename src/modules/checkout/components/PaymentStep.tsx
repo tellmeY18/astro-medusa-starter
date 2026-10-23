@@ -52,7 +52,7 @@ export const PaymentStep = ({
 
       openRazorpayCheckout({
         keyId: order.keyId,
-        orderId: order.id,
+        orderId: order.order_id || order.id,
         amount: order.amount,
         currency: order.currency,
         name: razorpayStoreName,
